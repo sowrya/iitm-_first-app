@@ -1,141 +1,131 @@
 package com.revenexant.iNow2;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.app.Activity;
-
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity implements
-		NavigationDrawerFragment.NavigationDrawerCallbacks {
-
-	/**
-	 * Fragment managing the behaviors, interactions and presentation of the
-	 * navigation drawer.
-	 */
-	private NavigationDrawerFragment mNavigationDrawerFragment;
-
-	/**
-	 * Used to store the last screen title. For use in
-	 * {@link #restoreActionBar()}.
-	 */
-	private CharSequence mTitle;
-
-	@Override
+public class MainActivity extends Activity{
+	private TextView username,password;
+    private EditText username1,password1;
+	private Button login;
+	private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
+    public static boolean check;
+	JsonParser jsonparser=new JsonParser();
+	 private static final String url = "http://students.iitm.ac.in/mobops_testing/login.php";
+	 
+	 @Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
-				.findFragmentById(R.id.navigation_drawer);
-		mTitle = getTitle();
-
-		// Set up the drawer.
-		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
-				(DrawerLayout) findViewById(R.id.drawer_layout));
-	}
-
-	@Override
-	public void onNavigationDrawerItemSelected(int position) {
-		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager
-				.beginTransaction()
-				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1)).commit();
-	}
-
-	public void onSectionAttached(int number) {
-		switch (number) {
-		case 1:
-			mTitle = getString(R.string.title_section1);
-			break;
-		case 2:
-			mTitle = getString(R.string.title_section2);
-			break;
-		case 3:
-			mTitle = getString(R.string.title_section3);
-			break;
+	        super.onCreate(savedInstanceState);
+	        setContentView(R.layout.vamshi_usethis);
+	        username=(TextView) findViewById(R.id.textView1);
+			password=(TextView) findViewById(R.id.textView2);
+			username1=(EditText) findViewById(R.id.editText1);
+			password1=(EditText) findViewById(R.id.editText2);
+			login=(Button) findViewById(R.id.button1);
+			login.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					//NetCheck();
+					
+				//please re-enable NetCheck later when logging in is possible.
+					Intent sPoint = new Intent("com.revenexant.iNow2.WINDOWPOINT");
+					startActivity(sPoint);
+				}}
+				);}
+	 //ends this window when button is pressed.
+	 @Override
+	protected void onPause() {
+			super.onPause();
+			this.finish();
 		}
-	}
+	 
+	 //Checking for internet connection in this.
+	 private void NetCheck() 
+	    {
+		    	if (DetectConnection
+		    		      .checkInternetConnection(MainActivity.this)) {
+		    		     new AttemptLogin().execute();
+		    		    } else {
+		    		     Toast.makeText(MainActivity.this,
+		    		       "You Do not have Internet Connection",
+		    		       Toast.LENGTH_LONG).show();
+		    		 
+		    		     MainActivity.this.startActivity(new Intent(
+		    		       Settings.ACTION_WIRELESS_SETTINGS));
+		    		    }
+	        
+			
+			
+	    }
+			class AttemptLogin extends AsyncTask<Object, Object, Object> {
+		        boolean failure = false;
+				private ProgressDialog pDialog;
+		        
+		        protected void onPreExecute(String file_url) {
+		        	super.onPreExecute();
+		            pDialog = new ProgressDialog(MainActivity.this);
+		            pDialog.setTitle("Contacting Servers");
+		            pDialog.setMessage("Logging in ...");
+		            pDialog.setIndeterminate(false);
+		            pDialog.setCancelable(true);
+		            pDialog.show();
+		        }
 
-	public void restoreActionBar() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(mTitle);
-	}
+				@Override
+				protected Object doInBackground(Object... params) {
+					int success;
+		            String username2 = username1.getText().toString();
+		            String password2= password1.getText().toString();
+		            try {
+		                List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
+		                users.add(new BasicNameValuePair("username3", username2));
+		                users.add(new BasicNameValuePair("password3", password2));
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if (!mNavigationDrawerFragment.isDrawerOpen()) {
-			// Only show items in the action bar relevant to this screen
-			// if the drawer is not showing. Otherwise, let the drawer
-			// decide what to show in the action bar.
-			getMenuInflater().inflate(R.menu.main, menu);
-			restoreActionBar();
-			return true;
-		}
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			PlaceholderFragment fragment = new PlaceholderFragment();
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
-
-		@Override
-		public void onAttach(Activity activity) {
-			super.onAttach(activity);
-			((MainActivity) activity).onSectionAttached(getArguments().getInt(
-					ARG_SECTION_NUMBER));
-		}
-	}
+		                Log.d("request!", "starting");
+		                JSONObject json = jsonparser.makeHttpRequest(
+		                       url, "POST", users);
+		                success = json.getInt(TAG_SUCCESS);
+		                if (success == 1) {
+		                    Log.d("Login Successful!", json.toString());
+		                    
+		                    return json.getString(TAG_MESSAGE);
+		                }else{
+		                    Log.d("Login Failure!", json.getString(TAG_MESSAGE));
+		                    return json.getString(TAG_MESSAGE);      
+		                }
+		            } catch (JSONException e) {
+		                e.printStackTrace();
+		            }				return null;
+				}      
+				protected void onPostExecute (
+						String result){
+					if(result.equals("Login successful!")){
+						Intent i = new Intent(MainActivity.this, NavigationDrawerFragment.class);
+	                    finish();
+	                    startActivity(i);
+					}
+					else{
+						Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+					}
+				}
+		    }
 
 }

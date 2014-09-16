@@ -1,4 +1,4 @@
-package com.example.feedbackportal;
+package com.revenexant.iNow2;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

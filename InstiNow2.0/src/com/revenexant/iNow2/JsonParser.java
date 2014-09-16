@@ -1,4 +1,4 @@
-package com.example.feedbackportal;
+package com.revenexant.iNow2;
 
 
 import java.io.BufferedReader;
@@ -25,7 +25,7 @@ public class JsonParser {
 
     static InputStream is = null;
     static JSONObject jObj = null;
-    static String json = "";
+    static String json = "something";
 
     // constructor
     public JsonParser() {
@@ -80,7 +80,8 @@ public class JsonParser {
                 sb.append(line + "\n");
             }
             is.close();
-            json = sb.toString();
+            //remove the json later on please
+            json = json+sb.toString();
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
