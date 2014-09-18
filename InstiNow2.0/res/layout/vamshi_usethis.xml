@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ACFA58" >
+    android:background="#99CC00" >
 
     <TextView
         android:id="@+id/textView1"
@@ -11,6 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="31dp"
         android:text="Username"
+        android:fontFamily=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -59,6 +60,6 @@
         android:layout_toRightOf="@+id/textView1"
         android:text="Login!!" 
         android:textAppearance="?android:attr/textAppearanceLarge" 
-        android:background="#4000FF"/>
+        android:background="#0099CC"/>
 
 </RelativeLayout>
