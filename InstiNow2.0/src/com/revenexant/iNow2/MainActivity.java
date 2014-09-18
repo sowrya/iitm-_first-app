@@ -21,8 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity{
-	private TextView username,password;
-    private EditText username1,password1;
+    private EditText username,password;
 	private Button login;
 	private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -34,10 +33,8 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.vamshi_usethis);
-	        username=(TextView) findViewById(R.id.textView1);
-			password=(TextView) findViewById(R.id.textView2);
-			username1=(EditText) findViewById(R.id.editText1);
-			password1=(EditText) findViewById(R.id.editText2);
+			username=(EditText) findViewById(R.id.editText1);
+			password=(EditText) findViewById(R.id.editText2);
 			login=(Button) findViewById(R.id.button1);
 			login.setOnClickListener(new OnClickListener() {
 				
@@ -92,8 +89,8 @@ public class MainActivity extends Activity{
 				@Override
 				protected Object doInBackground(Object... params) {
 					int success;
-		            String username2 = username1.getText().toString();
-		            String password2= password1.getText().toString();
+		            String username2 = username.getText().toString();
+		            String password2= password.getText().toString();
 		            try {
 		                List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
 		                users.add(new BasicNameValuePair("username3", username2));

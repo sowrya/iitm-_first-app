@@ -61,4 +61,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge" 
         android:background="@drawable/mybutton"/>
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="37dp"
+        android:text="@string/loginerrordisplay" 
+        android:textAppearance="@android:attr/textAppearanceLarge"/>
+
 </RelativeLayout>
