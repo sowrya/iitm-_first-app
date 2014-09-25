@@ -31,7 +31,7 @@ public class MainActivity extends Activity{
 	 @Override
 	protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.vamshi_usethis);
+	        setContentView(R.layout.loginpage);
 			username=(EditText) findViewById(R.id.editText1);
 			password=(EditText) findViewById(R.id.editText2);
 			login=(Button) findViewById(R.id.button1);
