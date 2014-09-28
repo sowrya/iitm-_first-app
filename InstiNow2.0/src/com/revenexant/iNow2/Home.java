@@ -16,7 +16,7 @@ public class Home extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_home);
+		setContentView(R.layout.something);
 		complaint=(Button) findViewById(R.id.button1);
 		complaint.setOnClickListener(new OnClickListener() {
 			

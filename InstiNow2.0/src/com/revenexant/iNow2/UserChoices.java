@@ -107,11 +107,20 @@ public class UserChoices extends Activity implements
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		switch(item.getItemId()) {
+		case R.id.action_settings:
 			return true;
+		case R.id.logout:
+			return runLogout();
 		}
-		return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(null);
+	}
+	
+	//the runLogout function if logout is pressed.
+	
+	public boolean runLogout() {
+		//enter logging out code here please
+		return true;
 	}
 
 	/**
