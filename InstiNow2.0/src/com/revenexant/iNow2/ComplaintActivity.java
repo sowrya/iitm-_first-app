@@ -35,6 +35,9 @@ public class ComplaintActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_complaint);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		
 		title=(EditText) findViewById(R.id.editText1);
 		content=(EditText) findViewById(R.id.editText2);
         submit=(Button) findViewById(R.id.button1);

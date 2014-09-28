@@ -43,7 +43,9 @@ public class MainActivity extends Activity{
 				
 				@Override
 				public void onClick(View v) {
-					NetCheck();
+					//NetCheck();
+					Intent i = new Intent(MainActivity.this, UserChoices.class);
+                    startActivity(i);
 				}}
 				);}
 		    private void NetCheck() 
@@ -108,7 +110,7 @@ public class MainActivity extends Activity{
 					pDialog.dismiss();
 					if(test==1){
 						Toast.makeText(getApplicationContext(), "logged in", Toast.LENGTH_SHORT).show();
-						Intent i = new Intent(MainActivity.this, Home.class);
+						Intent i = new Intent(MainActivity.this, UserChoices.class);
 	                    startActivity(i);
 					}
 					else{
