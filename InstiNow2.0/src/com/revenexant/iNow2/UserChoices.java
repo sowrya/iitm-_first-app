@@ -112,8 +112,9 @@ public class UserChoices extends Activity implements
 			return true;
 		case R.id.logout:
 			return runLogout();
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(null);
 	}
 	
 	//the runLogout function if logout is pressed.
