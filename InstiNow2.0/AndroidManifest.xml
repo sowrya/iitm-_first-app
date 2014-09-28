@@ -31,6 +31,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home" >
+        </activity>
+        <activity
+            android:name=".ComplaintActivity"
+            android:label="@string/title_activity_complaint" >
+        </activity>
     </application>
 
 </manifest>
