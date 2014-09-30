@@ -20,10 +20,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity{
     private EditText username1,password1;
+    private TextView loginerror;
     private static int test;
 	private Button login;
 	private static final String TAG_SUCCESS = "success";
@@ -38,14 +40,18 @@ public class MainActivity extends Activity{
 	        setContentView(R.layout.loginpage);
 			username1=(EditText) findViewById(R.id.editText1);
 			password1=(EditText) findViewById(R.id.editText2);
+			loginerror = (TextView) findViewById(R.id.errorText);
 			login=(Button) findViewById(R.id.button1);
 			login.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					//NetCheck();
+					try{NetCheck();}
+					catch(Exception e){e.printStackTrace();
+					loginerror.setText("NetCheck error.");
 					Intent i = new Intent(MainActivity.this, UserChoices.class);
-                    startActivity(i);
+                    startActivity(i);}
+					
 				}}
 				);}
 		    private void NetCheck() 
