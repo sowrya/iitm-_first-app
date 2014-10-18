@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity{
+	private static final String sett = "mtiiops";
+	SharedPreferences save;
     private EditText username1,password1;
     private TextView loginerror;
     private static int test;
@@ -37,6 +40,14 @@ public class MainActivity extends Activity{
 	 @Override
 	protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
+	        try{
+	        save = getSharedPreferences(sett,0);
+	        if(save.getBoolean("loggedin", false)){
+	        	Intent i = new Intent(MainActivity.this, UserChoices.class);
+                startActivity(i);}
+	        }catch(Exception e){}
+	        finally{
+	        
 	        setContentView(R.layout.loginpage);
 			username1=(EditText) findViewById(R.id.editText1);
 			password1=(EditText) findViewById(R.id.editText2);
@@ -44,8 +55,17 @@ public class MainActivity extends Activity{
 			login=(Button) findViewById(R.id.button1);
 			login.setOnClickListener(new OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
+					//save to preferences
+					save = getSharedPreferences(sett,0);
+					SharedPreferences.Editor editor = save.edit();
+				      editor.putBoolean("loggedin", true);
+				      editor.putString("username", username1.getText().toString());
+				      // Commit the edits!
+				      editor.commit();
+
+					//check connectivity
 					try{NetCheck();}
 					catch(Exception e){e.printStackTrace();
 					loginerror.setText("NetCheck error.");
@@ -53,7 +73,7 @@ public class MainActivity extends Activity{
                     startActivity(i);}
 					
 				}}
-				);}
+				);}}
 		    private void NetCheck() 
 	    {
 		    	if (DetectConnection
@@ -150,5 +170,17 @@ public class MainActivity extends Activity{
 	        }
 	        return super.onOptionsItemSelected(item);
 	    }
+	    
+	    
+	    
+		protected void onPause() {
+			super.onPause();
+			this.finish();
+		}
+		protected void onStop() {
+			super.onStop();
+		}
+	    
+	    
 	}
 

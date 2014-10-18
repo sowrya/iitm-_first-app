@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +28,9 @@ public class UserChoices extends Activity implements
 	 * Used to store the last screen title. For use in
 	 * {@link #restoreActionBar()}.
 	 */
+	private boolean finishthis = false;
+	private static final String sett = "mtiiops";
+	SharedPreferences save;
 	private CharSequence mTitle;
 
 	@Override
@@ -47,6 +52,7 @@ public class UserChoices extends Activity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
+		if(finishthis){finish();}
 	}
 
 
@@ -120,7 +126,15 @@ public class UserChoices extends Activity implements
 	//the runLogout function if logout is pressed.
 	
 	public boolean runLogout() {
+		finishthis = true;
 		//enter logging out code here please
+		save = getSharedPreferences(sett, 0);
+		SharedPreferences.Editor editor = save.edit();
+		editor.remove("loggedin");
+		editor.remove("username");
+		editor.commit();
+		Intent i = new Intent(UserChoices.this, MainActivity.class);
+        startActivity(i);
 		return true;
 	}
 
