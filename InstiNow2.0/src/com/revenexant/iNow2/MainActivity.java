@@ -9,8 +9,10 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -57,41 +59,44 @@ public class MainActivity extends Activity{
 				
 				
 				public void onClick(View v) {
+					//check connectivity
+					if(NetCheck()){
 					//save to preferences
 					save = getSharedPreferences(sett,0);
 					SharedPreferences.Editor editor = save.edit();
 				      editor.putBoolean("loggedin", true);
 				      editor.putString("username", username1.getText().toString());
-				      // Commit the edits!
 				      editor.commit();
-
-					//check connectivity
-					try{NetCheck();}
-					catch(Exception e){e.printStackTrace();
-					loginerror.setText("NetCheck error.");
-					Intent i = new Intent(MainActivity.this, UserChoices.class);
-                    startActivity(i);}
+				     
+					} else {
+						//default login
+				      Intent i = new Intent(MainActivity.this, UserChoices.class);
+				      startActivity(i);}
 					
 				}}
 				);}}
-		    private void NetCheck() 
-	    {
-		    	if (DetectConnection
-		    		      .checkInternetConnection(MainActivity.this)) {
-		    		
-		    		     new AttemptLogin().execute();
-		    		    } else {
+	 
+	 private boolean NetCheck() {
+		 boolean czech = false;
+		 try{
+			 czech = checkInternetConnection(MainActivity.this);
+		 }catch(Exception e){Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_LONG).show();
+		 return false;}
+		 if(czech){
+		    		new AttemptLogin().execute();
+		    		return true;
+		    	} else {
 		    		     Toast.makeText(MainActivity.this,
 		    		       "You Do not have Internet Connection",
 		    		       Toast.LENGTH_LONG).show();
 		    		 
-		    		     MainActivity.this.startActivity(new Intent(
-		    		       Settings.ACTION_WIRELESS_SETTINGS));
+		    		     try{MainActivity.this.startActivity(new Intent(
+		    		       Settings.ACTION_WIRELESS_SETTINGS));}
+		    		     catch(Exception e){Toast.makeText(MainActivity.this,"Wireless settings fail.",Toast.LENGTH_LONG).show();}
 		    		    }
-	        
-			
-			
-	    }
+		 return czech;
+		    	}
+		    
 			class AttemptLogin extends AsyncTask<String, String, String> {
 		        boolean failure = false;
 				private ProgressDialog pDialog;
@@ -170,6 +175,18 @@ public class MainActivity extends Activity{
 	        }
 	        return super.onOptionsItemSelected(item);
 	    }
+	    
+	    public static boolean checkInternetConnection(Context context) {
+	    	 
+	    	  ConnectivityManager con_manager = (ConnectivityManager) context
+	    	    .getSystemService(Context.CONNECTIVITY_SERVICE);
+	    	 
+	    	  if (con_manager.getActiveNetworkInfo() != null
+	    	    && con_manager.getActiveNetworkInfo().isAvailable()
+	    	    && con_manager.getActiveNetworkInfo().isConnected()) {
+	    	   return true;} else {return false;}
+	    	  
+	    	 }
 	    
 	    
 	    
