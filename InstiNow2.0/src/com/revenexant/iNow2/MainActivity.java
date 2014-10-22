@@ -61,6 +61,10 @@ public class MainActivity extends Activity{
 				      editor.putBoolean("loggedin", true);
 				      editor.putString("username", username1.getText().toString());
 				      editor.commit();}
+					else{
+						Intent i = new Intent(MainActivity.this,UserChoices.class);
+						startActivity(i);
+					}
 				}
 			});//end OnClickListener
 	     }//end of finally
@@ -74,8 +78,10 @@ public class MainActivity extends Activity{
 		 return false;}
 		 if(czech){
 			 		try{Toast.makeText(MainActivity.this,"Logged in.",Toast.LENGTH_LONG).show();
-			 			AttemptLogin loggy = new AttemptLogin();
-			 			loggy.execute();}
+			 			//AttemptLogin loggy = new AttemptLogin();
+			 			//loggy.execute();
+			 			//get rid of comments when repaired AttemptLogin
+			 			}
 			 		catch(Exception e){
 			 			Toast.makeText(MainActivity.this,"Attempt login failed.",Toast.LENGTH_LONG).show();
 			 			czech = false;}
