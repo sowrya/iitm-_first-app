@@ -2,19 +2,14 @@ package com.revenexant.iNow2;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
-
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,11 +21,9 @@ import android.widget.Toast;
 public class MainActivity extends Activity{
 	private static final String sett = "mtiiops";
 	SharedPreferences save;
-    private EditText username1,password1;
-    private static int test;
+    private EditText username1, password1;
+    private static boolean logintest = false;
 	private Button login;
-	private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
     public static boolean check;
 	JsonParser jsonparser = new JsonParser();
 	 private static final String url = "http://students.iitm.ac.in/mobops_testing/login.php";
@@ -55,16 +48,17 @@ public class MainActivity extends Activity{
 				public void onClick(View v) {
 					//check connectivity
 					if(NetCheck()){
-					//save to preferences
-					save = getSharedPreferences(sett,0);
-					SharedPreferences.Editor editor = save.edit();
-				      editor.putBoolean("loggedin", true);
-				      editor.putString("username", username1.getText().toString());
-				      editor.commit();}
-					else{
-						Intent i = new Intent(MainActivity.this,UserChoices.class);
-						startActivity(i);
-					}
+						if(logintest){
+							//save to preferences
+							save = getSharedPreferences(sett,0);
+							SharedPreferences.Editor editor = save.edit();
+						    editor.putBoolean("loggedin", true);
+						    editor.putString("username", username1.getText().toString());
+						    editor.commit();
+						    Intent i = new Intent(MainActivity.this,UserChoices.class);
+							startActivity(i);
+						}// if login test
+					}//if net check
 				}
 			});//end OnClickListener
 	     }//end of finally
@@ -77,76 +71,36 @@ public class MainActivity extends Activity{
 		 }catch(Exception e){Toast.makeText(MainActivity.this,"Connection check failed.",Toast.LENGTH_LONG).show();
 		 return false;}
 		 if(czech){
-			 		try{Toast.makeText(MainActivity.this,"Logged in.",Toast.LENGTH_LONG).show();
-			 			//AttemptLogin loggy = new AttemptLogin();
-			 			//loggy.execute();
-			 			//get rid of comments when repaired AttemptLogin
-			 			}
-			 		catch(Exception e){
-			 			Toast.makeText(MainActivity.this,"Attempt login failed.",Toast.LENGTH_LONG).show();
-			 			czech = false;}
+			 			LoginAttempt();
 		    	} else {
-		    		     Toast.makeText(MainActivity.this,"No internet connection",Toast.LENGTH_LONG).show();
+		    		     Toast.makeText(MainActivity.this,"No internet connection.",Toast.LENGTH_LONG).show();
 		    		    }
 		 return czech;
-		   }
+		   }//end of NetCheck
 	 
-	 class AttemptLogin extends AsyncTask<String, String, String> {
-			private ProgressDialog pDialog;
-	        @Override
-	        protected void onPreExecute() {
-	        	super.onPreExecute();
-	            pDialog = new ProgressDialog(MainActivity.this);
-	            pDialog.setMessage("Logging in ...");
-	            pDialog.setIndeterminate(false);
-	            pDialog.setCancelable(true);
-	            pDialog.show();
-	        }
-
-	        @Override
-	        protected String doInBackground(String... params) {
-	        	int success;
-	        	String username2 = username1.getText().toString();
-	        	String password2= password1.getText().toString();
-	        	try {
-	        		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
-	        		users.add(new BasicNameValuePair("username3", username2));
-	        		users.add(new BasicNameValuePair("password3", password2));
-	        		
-	        		Log.d("request!", "starting");
-	        		JSONObject json = jsonparser.makeHttpRequest(
-	        				url, "POST", users);
-	        		success = json.getInt(TAG_SUCCESS);
-	        		if (success == 1) {
-	        			Log.d("Login Successful!", json.toString());
-	        			test=1;
-	        			return json.getString(TAG_MESSAGE);
-	        		}else{
-	        			Log.d("Login Failure!", json.getString(TAG_MESSAGE));
-	        			return json.getString(TAG_MESSAGE);      
-	        		}
-	        	} catch (Exception e) {
-	        		e.printStackTrace();
-	        		Toast.makeText(getApplicationContext(), "Background error.", Toast.LENGTH_LONG).show();
-	        	}
-	        	return null;
-	        }
-			@Override
-			protected void onPostExecute (String file_url){
-				pDialog.dismiss();
-				if(test==1){
-					Toast.makeText(getApplicationContext(), "Logged in", Toast.LENGTH_LONG).show();
-					Intent i = new Intent(MainActivity.this, UserChoices.class);
-                 startActivity(i);
-				}
-				else{
-					Toast.makeText(getApplicationContext(), "Invalid Credentials" , Toast.LENGTH_LONG).show();
-					Intent i = new Intent(MainActivity.this,MainActivity.class);
-                 startActivity(i);
-				}
-			}
-			
-	 	}// end of AttemtLogin class
+	 private void LoginAttempt(){
+		 int success=0;
+     	try {
+     		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
+     		users.add(new BasicNameValuePair("username", username1.getText().toString()));
+     		users.add(new BasicNameValuePair("password", password1.getText().toString()));
+     		try{
+     			JSONObject json = jsonparser.makeHttpRequest(url, "POST", users);
+         		success = json.getInt("success"); //failing here please fix
+     		} catch(Exception e){
+     			Toast.makeText(MainActivity.this,"JSON fail.",Toast.LENGTH_LONG).show();
+     		}
+     		
+     		if (success == 1) {
+     			logintest=true;
+     			Toast.makeText(MainActivity.this,"Welcome!",Toast.LENGTH_LONG).show();
+     		}else{logintest=false;
+     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_LONG).show();   
+     		}
+     	} catch (Exception e) {
+     		Toast.makeText(MainActivity.this, "LoginAttempt fail.", Toast.LENGTH_LONG).show();
+     	}
+	 }// end of LoginAttempt
 
 	    @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
