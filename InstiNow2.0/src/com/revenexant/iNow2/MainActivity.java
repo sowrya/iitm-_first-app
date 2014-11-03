@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +27,6 @@ public class MainActivity extends Activity{
     private static boolean logintest = false;
 	private Button login;
     public static boolean check;
-	JsonParser jsonparser = new JsonParser();
 	 private static final String url = "http://students.iitm.ac.in/mobops_testing/login.php";
 	 
 	 @Override
@@ -71,36 +72,47 @@ public class MainActivity extends Activity{
 		 }catch(Exception e){Toast.makeText(MainActivity.this,"Connection check failed.",Toast.LENGTH_LONG).show();
 		 return false;}
 		 if(czech){
-			 			LoginAttempt();
+			 			LoginAttempt la = new LoginAttempt();
+			 			try{la.execute();}
+			 			catch(Exception e){
+			 				Toast.makeText(MainActivity.this,"ASync:"+e.toString(),Toast.LENGTH_LONG).show();
+			 			}
 		    	} else {
 		    		     Toast.makeText(MainActivity.this,"No internet connection.",Toast.LENGTH_LONG).show();
 		    		    }
 		 return czech;
 		   }//end of NetCheck
 	 
-	 private void LoginAttempt(){
-		 int success=0;
-     	try {
-     		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
-     		users.add(new BasicNameValuePair("username", username1.getText().toString()));
-     		users.add(new BasicNameValuePair("password", password1.getText().toString()));
-     		try{
-     			JSONObject json = jsonparser.makeHttpRequest(url, "POST", users);
-         		success = json.getInt("success"); //failing here please fix
-     		} catch(Exception e){
-     			Toast.makeText(MainActivity.this,"JSON fail.",Toast.LENGTH_LONG).show();
-     		}
-     		
-     		if (success == 1) {
-     			logintest=true;
-     			Toast.makeText(MainActivity.this,"Welcome!",Toast.LENGTH_LONG).show();
-     		}else{logintest=false;
-     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_LONG).show();   
-     		}
-     	} catch (Exception e) {
-     		Toast.makeText(MainActivity.this, "LoginAttempt fail.", Toast.LENGTH_LONG).show();
-     	}
-	 }// end of LoginAttempt
+	 private class LoginAttempt extends AsyncTask<Void, Void, Void> {
+		 
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			int success=0;
+	     	try {
+	     		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
+	     		users.add(new BasicNameValuePair("username", username1.getText().toString()));
+	     		users.add(new BasicNameValuePair("password", password1.getText().toString()));
+	     		try{
+	     			JSONObject json = new JsonParser().makeHttpRequest(url, "POST", users);
+	         		success = json.getInt("success"); //failing here please fix
+	     		} catch(Exception e){
+	     			Log.e("JSON", "JSON failed.");
+	     		}
+	     		
+	     		if (success == 1) {
+	     			logintest=true;
+	     			Toast.makeText(MainActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
+	     		}else{logintest=false;
+	     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_LONG).show();   
+	     		}
+	     	} catch (Exception e) {
+	     		Log.e("doInBackground", "failed.");
+	     	}
+			return null;
+		}//end of do in background
+		 
+	 }// end of ASyncTask
 
 	    @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
