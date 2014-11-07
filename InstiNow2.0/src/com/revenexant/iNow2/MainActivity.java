@@ -112,7 +112,7 @@ public class MainActivity extends Activity{
 	     		users.add(new BasicNameValuePair("username", username1.getText().toString()));
 	     		users.add(new BasicNameValuePair("password", password1.getText().toString()));
 	     		try{
-	     			JSONObject json = makeHttpRequest(url, "POST", users);
+	     			JSONObject json = new JsonParser().makeHttpRequest(url, "POST", users);
 	     			success = json.getInt("success");
 	     			Log.v("successint", "Now it's "+success);
 	     		} catch(Exception e){
@@ -143,65 +143,6 @@ public class MainActivity extends Activity{
 		 
 	 }// end of ASyncTask
 	 
-	 public JSONObject makeHttpRequest(String url, String method,List params) {
-		 
-	        try {
-
-	            // check for request method
-	            if(method.compareTo("POST")==0){
-	                // request method is POST
-	                // defaultHttpClient
-	                DefaultHttpClient httpClient = new DefaultHttpClient();
-	                HttpPost httpPost = new HttpPost(url);
-	                httpPost.setEntity(new UrlEncodedFormEntity(params));
-
-	                HttpResponse httpResponse = httpClient.execute(httpPost);
-	                HttpEntity httpEntity = httpResponse.getEntity();
-	                is = httpEntity.getContent();
-
-	            }else if(method.compareTo("GET")==0){
-	                // request method is GET
-	                DefaultHttpClient httpClient = new DefaultHttpClient();
-	                String paramString = URLEncodedUtils.format(params, "utf-8");
-	                url += "?" + paramString;
-	                HttpGet httpGet = new HttpGet(url);
-
-	                HttpResponse httpResponse = httpClient.execute(httpGet);
-	                HttpEntity httpEntity = httpResponse.getEntity();
-	                is = httpEntity.getContent();
-	            }           
-
-	        } catch (Exception e) {
-	            Log.e("makeHttpRequest", e.toString());
-	        }
-
-	        try {
-	            BufferedReader reader = new BufferedReader(new InputStreamReader(
-	                    is, "iso-8859-1"), 8);
-	            StringBuilder sb = new StringBuilder();
-	            String line = null;
-	            while ((line = reader.readLine()) != null) {
-	                sb.append(line + "\n");
-	            }
-	            is.close();
-	            jsonstr = sb.toString();
-	            Log.v("StringBuilder", jsonstr);
-	            
-	        } catch (Exception e) {
-	            Log.e("Buffer Error", "Error converting result " + e.toString());
-	        }
-
-	        // try parse the string to a JSON object
-	        try {
-	            jObj = new JSONObject(jsonstr);
-	        } catch (JSONException e) {
-	            Log.e("JSON Parser", "Error parsing data.");
-	        }
-
-	        // return JSON String
-	        return jObj;
-
-	    }// end of makeHttpRequest. This is from JSONParser.
 
 	    @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {

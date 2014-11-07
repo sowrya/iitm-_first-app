@@ -23,7 +23,7 @@ public class JsonParser {
 
     static InputStream is = null;
     static JSONObject jObj = null;
-    static String json = "something";
+    static String jsonstr = "";
 
     // constructor
     public JsonParser() {
@@ -32,8 +32,7 @@ public class JsonParser {
 
   
     public JSONObject makeHttpRequest(String url, String method,List params) {
-
-        // Making HTTP request
+		 
         try {
 
             // check for request method
@@ -73,17 +72,18 @@ public class JsonParser {
                 sb.append(line + "\n");
             }
             is.close();
-            //remove the json later on please
-            json = json+sb.toString();
+            jsonstr = sb.toString();
+            Log.v("StringBuilder", jsonstr);
+            
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
 
         // try parse the string to a JSON object
         try {
-            jObj = new JSONObject(json);
+            jObj = new JSONObject(jsonstr);
         } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
+            Log.e("JSON Parser", "Error parsing data.");
         }
 
         // return JSON String
