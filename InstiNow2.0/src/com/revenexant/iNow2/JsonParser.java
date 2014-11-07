@@ -5,12 +5,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -33,14 +31,13 @@ public class JsonParser {
     }
 
   
-    public JSONObject makeHttpRequest(String url, String method,
-            List params) {
+    public JSONObject makeHttpRequest(String url, String method,List params) {
 
         // Making HTTP request
         try {
 
             // check for request method
-            if(method == "POST"){
+            if(method.compareTo("POST")==0){
                 // request method is POST
                 // defaultHttpClient
                 DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -51,7 +48,7 @@ public class JsonParser {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
 
-            }else if(method == "GET"){
+            }else if(method.compareTo("GET")==0){
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
@@ -63,12 +60,8 @@ public class JsonParser {
                 is = httpEntity.getContent();
             }           
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e("makeHttpRequest", e.toString());
         }
 
         try {
