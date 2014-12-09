@@ -2,7 +2,6 @@ package com.revenexant.iNow2;
 
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -14,7 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -23,7 +22,7 @@ public class JsonParser {
 
     static InputStream is = null;
     static JSONObject jObj = null;
-    static String jsonstr = "";
+    static String jsonstr = "0";
 
     // constructor
     public JsonParser() {
@@ -31,11 +30,11 @@ public class JsonParser {
     }
 
   
-    public JSONObject makeHttpRequest(String url, String method,List params) {
+    public int makeHttpRequest(String url, String method,List<BasicNameValuePair> params) {
 		 
         try {
 
-            // check for request method
+            // check for request method. Standard stuff
             if(method.compareTo("POST")==0){
                 // request method is POST
                 // defaultHttpClient
@@ -80,15 +79,8 @@ public class JsonParser {
         }
 
         // try parse the string to a JSON object
-        try {
-            jObj = new JSONObject(jsonstr);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data.");
-        }
-
-        // return JSON String
-        return jObj;
-
+        
+        return Integer.parseInt(jsonstr.charAt(0)+"");
     }
 
 	

@@ -1,20 +1,9 @@
 package com.revenexant.iNow2;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
@@ -39,8 +28,9 @@ public class MainActivity extends Activity{
     private EditText username1, password1;
     private static boolean logintest = false;
 	private Button login;
+	private Button complaint;
     public static boolean check;
-	 private static final String url = "http://students.iitm.ac.in/mobops_testing/login.php";
+	 private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud_registration.php";
 	 //from JSONParser
 
 	    static InputStream is = null;
@@ -80,6 +70,16 @@ public class MainActivity extends Activity{
 					}//if net check
 				}
 			});//end OnClickListener
+	        	complaint = (Button) findViewById(R.id.complaintButton);
+	        	complaint.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Intent com = new Intent(MainActivity.this,ComplaintActivity.class);
+						startActivity(com);
+						
+					}
+				});// end of Complaint button listener
 	     }//end of finally
 	}//end OnCreate
 	 
@@ -87,16 +87,16 @@ public class MainActivity extends Activity{
 		 boolean czech = false;
 		 try{
 			 czech = checkInternetConnection(MainActivity.this);
-		 }catch(Exception e){Toast.makeText(MainActivity.this,"Connection check failed.",Toast.LENGTH_LONG).show();
+		 }catch(Exception e){Toast.makeText(MainActivity.this,"Connection check failed.",Toast.LENGTH_SHORT).show();
 		 return false;}
 		 if(czech){
 			 			LoginAttempt la = new LoginAttempt();
 			 			try{la.execute();}
 			 			catch(Exception e){
-			 				Log.e("ASync:",e.toString());
+			 				Log.e("ASync:",e.toString());//check for AsyncTask error
 			 			}
 		    	} else {
-		    		     Toast.makeText(MainActivity.this,"No internet connection.",Toast.LENGTH_LONG).show();
+		    		     Toast.makeText(MainActivity.this,"No internet connection.",Toast.LENGTH_SHORT).show();
 		    		    }
 		 return czech;
 		   }//end of NetCheck
@@ -109,12 +109,13 @@ public class MainActivity extends Activity{
 	     	try {
 	     		Looper.prepare();
 	     		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
-	     		users.add(new BasicNameValuePair("username", username1.getText().toString()));
-	     		users.add(new BasicNameValuePair("password", password1.getText().toString()));
+	     		//making sure the input is in Capital letters
+	     		users.add(new BasicNameValuePair("roll", username1.getText().toString().toUpperCase()));
+	     		users.add(new BasicNameValuePair("pass", password1.getText().toString()));
 	     		try{
-	     			JSONObject json = new JsonParser().makeHttpRequest(url, "POST", users);
-	     			success = json.getInt("success");
-	     			Log.v("successint", "Now it's "+success);
+	     			success = new JsonParser().makeHttpRequest(url, "POST", users);
+	     			//returns 1 if login is done, or 0 if not successful.
+	     			Log.v("successint", "Now it's "+success);// check LogCat output.
 	     		} catch(Exception e){
 	     			Log.e("JSON", "JSON failed.");
 	     		}
@@ -124,7 +125,7 @@ public class MainActivity extends Activity{
 	     			logintest=true;
 	     			Toast.makeText(MainActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
 	     		}else{logintest=false;
-	     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_LONG).show();
+	     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_SHORT).show();
 	     			jsonstr = "";
 	     		}
 	     		Looper.loop();

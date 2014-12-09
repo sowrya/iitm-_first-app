@@ -2,11 +2,7 @@ package com.revenexant.iNow2;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -28,8 +24,6 @@ public class ComplaintActivity extends Activity {
     private static List<CheckBox> tags = new ArrayList<CheckBox>();
     JsonParser jsonparser=new JsonParser();
     private static final String url="http://students.iitm.ac.in/mobops_testing/complaint.php";
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
     public static int count;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,22 +88,17 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             }
             posts.add(new BasicNameValuePair("count",Integer.toString(count)));
             //Posting user data to script 
-            JSONObject json = jsonparser.makeHttpRequest(
-                   url, "POST", posts);
-
-            Log.d("Login attempt", json.toString());
-
-            success = json.getInt(TAG_SUCCESS);
+            success = jsonparser.makeHttpRequest(url, "POST", posts);
             if (success == 1) {
-                Log.d("Complaint registered!", json.toString());                  
+                Log.d("Complaint registered!", "Successful.");                  
                 finish();
-                return json.getString(TAG_MESSAGE);
+                return "success";
             }else{
-                Log.d("Failure!", json.getString(TAG_MESSAGE));
-                return json.getString(TAG_MESSAGE);
+                Log.d("Failure!", "Unsuccessful");
+                return "message";
                 
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
