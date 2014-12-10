@@ -28,7 +28,7 @@ public class ComplaintActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_complaint);
+		setContentView(R.layout.complaint);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		

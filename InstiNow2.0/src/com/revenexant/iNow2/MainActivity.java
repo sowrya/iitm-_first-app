@@ -29,6 +29,7 @@ public class MainActivity extends Activity{
     private static boolean logintest = false;
 	private Button login;
 	private Button complaint;
+	private Button loginCheat;
     public static boolean check;
 	 private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud_registration.php";
 	 //from JSONParser
@@ -80,6 +81,15 @@ public class MainActivity extends Activity{
 						
 					}
 				});// end of Complaint button listener
+	        	loginCheat = (Button) findViewById(R.id.loginCheat);
+	        	loginCheat.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Intent com = new Intent(MainActivity.this,UserChoices.class);
+						startActivity(com);
+						}
+				});
 	     }//end of finally
 	}//end OnCreate
 	 

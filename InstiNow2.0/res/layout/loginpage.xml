@@ -60,4 +60,14 @@
         android:background="@drawable/mybutton"
         android:text="Complaint" />
 
+    <Button
+        android:id="@+id/loginCheat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:background="@drawable/mybutton"
+        android:layout_alignParentRight="true"
+        android:text="Cheat the Login" />
+
 </RelativeLayout>
