@@ -68,10 +68,17 @@ public class UserChoices extends Activity implements
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager
-				.beginTransaction()
-				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1)).commit();
+		
+		switch(position){
+		case 3:
+			fragmentManager.beginTransaction().replace(R.id.container,
+					ComplaintActivity.newInstance(position + 1)).commit();
+			break;
+		default:
+			fragmentManager.beginTransaction().replace(R.id.container,
+					PlaceholderFragment.newInstance(position + 1)).commit();
+			break;
+		}
 	}
 
 	public void onSectionAttached(int number) {
@@ -152,7 +159,7 @@ public class UserChoices extends Activity implements
 		 * fragment.
 		 */
 		private static final String ARG_SECTION_NUMBER = "section_number";
-		private static int frags[] = {R.layout.frag_execwing,R.layout.frag_t5e,R.layout.frag_instievents,R.layout.frag_feedback,};
+		private static int frags[] = {R.layout.frag_execwing,R.layout.frag_t5e,R.layout.frag_instievents,R.layout.frag_execwing,};
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.
