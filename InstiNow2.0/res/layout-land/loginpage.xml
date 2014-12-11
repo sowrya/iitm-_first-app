@@ -6,10 +6,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:orientation="vertical" 
-        android:padding="50dp"
+        android:padding="30dp"
         >
         
         <EditText
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/mybutton"
             android:padding="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center"
             android:text="Login!"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -48,10 +48,8 @@
         android:id="@+id/loginCheat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="43dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:background="@drawable/mybutton"
         android:text="Cheat the Login" />
 
