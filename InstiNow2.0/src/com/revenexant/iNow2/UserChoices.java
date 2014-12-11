@@ -159,7 +159,7 @@ public class UserChoices extends Activity implements
 		 * fragment.
 		 */
 		private static final String ARG_SECTION_NUMBER = "section_number";
-		private static int frags[] = {R.layout.frag_execwing,R.layout.frag_t5e,R.layout.frag_instievents,R.layout.frag_execwing,};
+		private static int frags[] = {R.layout.frag_execwing,R.layout.frag_instievents,R.layout.frag_t5e,R.layout.frag_execwing,};
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.

@@ -3,8 +3,8 @@
 
     <string name="app_name">InstiNow 2.0</string>
     <string name="title_section1">Executive Wing</string>
-    <string name="title_section2">T5E Updates!</string>
-    <string name="title_section3">Insti Events</string>
+    <string name="title_section2">Insti Events</string>
+    <string name="title_section3">T5E Updates!</string>
     <string name="title_section4">Feedback Portal</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,8 +17,8 @@
     
     <string-array name="navdrawer_items">
         <item>Executive Wing</item>
-    	<item>T5E Updates!</item>
     	<item>Insti Events</item>
+    	<item>T5E Updates!</item>
     	<item>Feedback Portal</item>
     </string-array> 
 

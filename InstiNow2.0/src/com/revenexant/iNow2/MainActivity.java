@@ -71,16 +71,6 @@ public class MainActivity extends Activity{
 					}//if net check
 				}
 			});//end OnClickListener
-	        	complaint = (Button) findViewById(R.id.complaintButton);
-	        	complaint.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						Intent com = new Intent(MainActivity.this,ComplaintActivity.class);
-						startActivity(com);
-						
-					}
-				});// end of Complaint button listener
 	        	loginCheat = (Button) findViewById(R.id.loginCheat);
 	        	loginCheat.setOnClickListener(new View.OnClickListener() {
 					
