@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.graphics.Paint.Join;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +28,7 @@ public class ComplaintActivity extends Fragment {
     JsonParser jsonparser=new JsonParser();
     private static final String url="http://students.iitm.ac.in/mobops_testing/complaint.php";
 	private static final String ARG_SECTION_NUMBER = "nothing";
-    public static int count;
+	private static JSONObject jObj = null;
     
     
     public ComplaintActivity(){
@@ -82,6 +84,7 @@ class CreateComplaint extends AsyncTask<String, String, String>{
 	@Override
 	protected String doInBackground(String... params) {
 		int success = 0;
+		int count = 0;
         String title1 = title.getText().toString();
         String content1 = content.getText().toString();
         try {
@@ -91,8 +94,8 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             posts.add(new BasicNameValuePair("content2", content1));
             for(int i=0;i<9;i++){
             	if(tags.get(i).isChecked()){
-            		posts.add(new BasicNameValuePair("tag"+i,tags.get(i).getText().toString()));
-            		count=count+1;
+            		posts.add(new BasicNameValuePair("tag"+count,tags.get(i).getText().toString()));
+            		count++;
             	}
             	else{
             		continue;
@@ -102,15 +105,15 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             //Posting user data to script 
              
             try{String s =jsonparser.makeHttpRequest(url, "POST", posts);
-            	success = Integer.parseInt(s.substring(s.length()-4, s.length()-3));
+            jObj = new JSONObject(s);
+            success = jObj.getInt("success");
+            Log.v("message", jObj.getString("message"));
             	//change the php script
             } catch(Exception e){
             	Log.e("Json", e.toString());
             }
             if (success == 1) {
-                Log.d("Complaint registered!", "Successful.");                  
-                //finish();
-                //what is this finish???
+                Log.d("Complaint registered!", "Successful.");
                 return "success";
             }else{
                 Log.d("Failure!", "Unsuccessful");
