@@ -1,10 +1,10 @@
 package com.revenexant.iNow2;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,26 +26,23 @@ public class MainActivity extends Activity{
 	private static final String sett = "mtiiops";
 	SharedPreferences save;
     private EditText username1, password1;
-    private static boolean logintest = false;
 	private Button login;
 	private Button loginCheat;
     public static boolean check;
-	 private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud_registration.php";
-	 //from JSONParser
-
-	    static InputStream is = null;
-	    static JSONObject jObj = null;
-	    static String jsonstr = "";
+	private static final String url = "http://students.iitm.ac.in/mobops_testing/login.php";
+	private String name = "";
+	static JSONObject jObj = null;
+	static String jsonstr = "";
 	 
 	 @Override
 	protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        try{
 	        save = getSharedPreferences(sett,0);
-	        if(save.getBoolean("loggedin", false)){
+	        if(save.contains("loggedin")){
 	        	Intent i = new Intent(MainActivity.this, UserChoices.class);
                 startActivity(i);}
-	        }catch(Exception e){}
+	        }catch(Exception e){Log.e("SharedPref", "Error creating SPs.");}
 	        finally{
 	        	setContentView(R.layout.loginpage);
 	        	username1=(EditText) findViewById(R.id.editText1);
@@ -56,29 +53,9 @@ public class MainActivity extends Activity{
 	        		@Override
 				public void onClick(View v) {
 					//check connectivity
-					if(NetCheck()){
-						if(logintest){
-							//save to preferences
-							save = getSharedPreferences(sett,0);
-							SharedPreferences.Editor editor = save.edit();
-						    editor.putBoolean("loggedin", true);
-						    editor.putString("username", username1.getText().toString());
-						    editor.commit();
-						    Intent i = new Intent(MainActivity.this,UserChoices.class);
-							startActivity(i);
-						}// if login test
-					}//if net check
+					NetCheck();
 				}
 			});//end OnClickListener
-	        	loginCheat = (Button) findViewById(R.id.loginCheat);
-	        	loginCheat.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						Intent com = new Intent(MainActivity.this,UserChoices.class);
-						startActivity(com);
-						}
-				});
 	     }//end of finally
 	}//end OnCreate
 	 
@@ -102,6 +79,7 @@ public class MainActivity extends Activity{
 	 
 	 private class LoginAttempt extends AsyncTask<Void, Void, Void> {
 
+		@SuppressLint("DefaultLocale")
 		@Override
 		protected Void doInBackground(Void... params) {
 			int success=0;
@@ -109,21 +87,30 @@ public class MainActivity extends Activity{
 	     		Looper.prepare();
 	     		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
 	     		//making sure the input is in Capital letters
-	     		users.add(new BasicNameValuePair("roll", username1.getText().toString().toUpperCase()));
+	     		name = username1.getText().toString().toUpperCase();
+	     		users.add(new BasicNameValuePair("roll", name));
 	     		users.add(new BasicNameValuePair("pass", password1.getText().toString()));
 	     		try{
-	     			success = Integer.parseInt(new JsonParser().makeHttpRequest(url, "POST", users).substring(0, 1));
-	     			//returns 1 if login is done, or 0 if not successful.
+	     			jsonstr = new JsonParser().makeHttpRequest(url, "POST", users);
+	     			jObj = new JSONObject(jsonstr);
+	     			success = jObj.getInt("success");
 	     			Log.v("successint", "Now it's "+success);// check LogCat output.
+	     			Log.v("message", jObj.getString("message"));
 	     		} catch(Exception e){
 	     			Log.e("JSON", "JSON failed.");
 	     		}
 	     		
-	     		
 	     		if (success == 1) {
-	     			logintest=true;
-	     			Toast.makeText(MainActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
-	     		}else{logintest=false;
+	     			Toast.makeText(MainActivity.this,
+	     					"Welcome "+name+".",Toast.LENGTH_SHORT).show();
+	     			save = getSharedPreferences(sett,0);
+					SharedPreferences.Editor editor = save.edit();
+				    editor.putBoolean("loggedin", true);
+				    editor.putString("username", username1.getText().toString());
+				    editor.commit();
+				    Intent i = new Intent(MainActivity.this,UserChoices.class);
+					startActivity(i);
+	     		}else{
 	     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_SHORT).show();
 	     			jsonstr = "";
 	     		}
