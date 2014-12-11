@@ -2,13 +2,10 @@ package com.revenexant.iNow2;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
-
 import android.app.Fragment;
-import android.app.ProgressDialog;
-import android.graphics.Paint.Join;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,21 +58,33 @@ public class ComplaintActivity extends Fragment {
         tags.add(8,(CheckBox) rootView.findViewById(R.id.checkBox9));
 		} catch(Exception e){
 			Log.e("getViewCup", e.toString());}
-		try{
         
         submit.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				try{new CreateComplaint().execute();}
-	 			catch(Exception e){
-	 				Log.e("ASync:",e.toString());}//check for AsyncTask error
-			}
-		});} catch(Exception e){
-		Log.e("onClickCup", e.toString());
-		}
+				if(title.getText().toString().isEmpty()){
+					Toast.makeText(getActivity(), "Title cannot be empty.", Toast.LENGTH_SHORT).show();
+				}else if(content.getText().toString().isEmpty()){
+					Toast.makeText(getActivity(), "Content cannot be empty.", Toast.LENGTH_SHORT).show();
+				}else {int count=0;
+					for(int i=0;i<9;i++){
+						if(tags.get(i).isChecked()){count++;}}
+					if(count==0){
+					Toast.makeText(getActivity(), "Select at least one criteria.", Toast.LENGTH_SHORT).show();
+					}else if(count>4){
+						Toast.makeText(getActivity(), "Too many criteria selected. Max 4.", Toast.LENGTH_SHORT).show();
+					}else{
+						try{new CreateComplaint().execute();}
+						catch(Exception e){
+							Log.e("ASync:",e.toString());}//check for AsyncTask error
+					}
+				}//count else
+			}// onClick method end
+		});
+        
 		return rootView;
-	}
+	}// end of onCreateView
     
     
 class CreateComplaint extends AsyncTask<String, String, String>{
@@ -108,7 +117,6 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             jObj = new JSONObject(s);
             success = jObj.getInt("success");
             Log.v("message", jObj.getString("message"));
-            	//change the php script
             } catch(Exception e){
             	Log.e("Json", e.toString());
             }
@@ -123,13 +131,13 @@ class CreateComplaint extends AsyncTask<String, String, String>{
         } catch (Exception e) {
             Log.e("doInBack", e.toString());
         }
-
 		return null;
 	}
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-	}
+		Intent i = new Intent(getActivity(), Thanks.class);
+        startActivity(i);}
 	
 }
 

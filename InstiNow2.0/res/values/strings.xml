@@ -14,12 +14,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_complaint">How may we help?</string>
     <string name="action_logout">Logout</string>
-    
+
     <string-array name="navdrawer_items">
         <item>Executive Wing</item>
-    	<item>Insti Events</item>
-    	<item>T5E Updates!</item>
-    	<item>Feedback Portal</item>
-    </string-array> 
+        <item>Insti Events</item>
+        <item>T5E Updates!</item>
+        <item>Feedback Portal</item>
+    </string-array>
+
+    <string name="title_activity_thanks">Thanks</string>
 
 </resources>

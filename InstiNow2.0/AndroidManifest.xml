@@ -7,8 +7,9 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="20" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -39,13 +40,18 @@
         </activity>
         <activity
             android:name=".ComplaintActivity"
-            android:label="@string/title_activity_complaint" 
-            android:theme="@android:style/Theme.Holo.Light"
-            android:parentActivityName=".UserChoices" >
+            android:label="@string/title_activity_complaint"
+            android:parentActivityName=".UserChoices"
+            android:theme="@android:style/Theme.Holo.Light" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".UserChoices" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserChoices" />
+        </activity>
+        <activity
+            android:name=".Thanks"
+            android:label="@string/title_activity_thanks" >
         </activity>
     </application>
 

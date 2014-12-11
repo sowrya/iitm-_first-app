@@ -27,7 +27,6 @@ public class MainActivity extends Activity{
 	SharedPreferences save;
     private EditText username1, password1;
 	private Button login;
-	private Button loginCheat;
     public static boolean check;
 	private static final String url = "http://students.iitm.ac.in/mobops_testing/login.php";
 	private String name = "";
