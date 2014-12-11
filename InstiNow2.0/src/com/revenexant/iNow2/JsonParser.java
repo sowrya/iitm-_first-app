@@ -30,7 +30,7 @@ public class JsonParser {
     }
 
   
-    public int makeHttpRequest(String url, String method,List<BasicNameValuePair> params) {
+    public String makeHttpRequest(String url, String method,List<BasicNameValuePair> params) {
 		 
         try {
 
@@ -80,7 +80,7 @@ public class JsonParser {
 
         // try parse the string to a JSON object
         
-        return Integer.parseInt(jsonstr.charAt(0)+"");
+        return jsonstr;
     }
 
 	

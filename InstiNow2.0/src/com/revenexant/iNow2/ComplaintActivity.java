@@ -65,7 +65,9 @@ public class ComplaintActivity extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				new CreateComplaint().execute();
+				try{new CreateComplaint().execute();}
+	 			catch(Exception e){
+	 				Log.e("ASync:",e.toString());}//check for AsyncTask error
 			}
 		});} catch(Exception e){
 		Log.e("onClickCup", e.toString());
@@ -75,19 +77,11 @@ public class ComplaintActivity extends Fragment {
     
     
 class CreateComplaint extends AsyncTask<String, String, String>{
-	private ProgressDialog pdialog;
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-        pdialog.setMessage("Registering the complaint");
-        pdialog.setIndeterminate(false);
-        pdialog.setCancelable(true);
-        pdialog.show();
-	};
+	
 
 	@Override
 	protected String doInBackground(String... params) {
-		int success;
+		int success = 0;
         String title1 = title.getText().toString();
         String content1 = content.getText().toString();
         try {
@@ -106,7 +100,13 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             }
             posts.add(new BasicNameValuePair("count",Integer.toString(count)));
             //Posting user data to script 
-            success = jsonparser.makeHttpRequest(url, "POST", posts);
+             
+            try{String s =jsonparser.makeHttpRequest(url, "POST", posts);
+            	success = Integer.parseInt(s.substring(s.length()-4, s.length()-3));
+            	//change the php script
+            } catch(Exception e){
+            	Log.e("Json", e.toString());
+            }
             if (success == 1) {
                 Log.d("Complaint registered!", "Successful.");                  
                 //finish();
@@ -118,7 +118,7 @@ class CreateComplaint extends AsyncTask<String, String, String>{
                 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("doInBack", e.toString());
         }
 
 		return null;
@@ -126,8 +126,6 @@ class CreateComplaint extends AsyncTask<String, String, String>{
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		pdialog.dismiss();
-		Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG).show();
 	}
 	
 }

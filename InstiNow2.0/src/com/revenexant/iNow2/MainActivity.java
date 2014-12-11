@@ -123,7 +123,7 @@ public class MainActivity extends Activity{
 	     		users.add(new BasicNameValuePair("roll", username1.getText().toString().toUpperCase()));
 	     		users.add(new BasicNameValuePair("pass", password1.getText().toString()));
 	     		try{
-	     			success = new JsonParser().makeHttpRequest(url, "POST", users);
+	     			success = Integer.parseInt(new JsonParser().makeHttpRequest(url, "POST", users).substring(0, 1));
 	     			//returns 1 if login is done, or 0 if not successful.
 	     			Log.v("successint", "Now it's "+success);// check LogCat output.
 	     		} catch(Exception e){
