@@ -28,7 +28,6 @@ public class MainActivity extends Activity{
     private EditText username1, password1;
     private static boolean logintest = false;
 	private Button login;
-	private Button complaint;
 	private Button loginCheat;
     public static boolean check;
 	 private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud_registration.php";
@@ -178,12 +177,13 @@ public class MainActivity extends Activity{
 	    @Override
 		protected void onPause() {
 			super.onPause();
-			this.finish();
 		}
+
 		@Override
-		protected void onStop() {
-			super.onStop();
+		protected void onResume() {
+			super.onResume();
 		}
+	    
 	    
 	    
 	}
