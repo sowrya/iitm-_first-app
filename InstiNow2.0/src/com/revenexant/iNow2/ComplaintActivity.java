@@ -134,7 +134,6 @@ class CreateComplaint extends AsyncTask<String, String, String>{
         String title1 = title.getText().toString();
         String content1 = content.getText().toString();
         try {
-        	Looper.prepare();
             // Building Parameters
         	List<BasicNameValuePair> posts = new ArrayList<BasicNameValuePair>();
         	posts.add(new BasicNameValuePair("user_id", user_id));
@@ -161,16 +160,15 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             try{String s =jsonparser.makeHttpRequest(url, "POST", posts);
             jObj = new JSONObject(s);
             success = jObj.getInt("success");
-            Log.v("message", jObj.getString("message"));
+            
             } catch(Exception e){
             	Log.e("Json", e.toString());
             }
             if (success == 1) {
-                Log.d("Complaint registered!", "Successful.");
-            }else{
-                Log.d("Failure!", "Unsuccessful");
-                Looper.loop();
-            }
+            	Log.d("message", jObj.getString("message"));
+            	}else{
+            		Toast.makeText(getActivity(), "Sorry to add to the pain, but complaint was unsuccessful.",  Toast.LENGTH_SHORT).show();
+                  }
         } catch (Exception e) {
             Log.e("doInBack", e.toString());
         }

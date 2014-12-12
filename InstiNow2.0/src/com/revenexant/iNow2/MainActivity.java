@@ -27,7 +27,7 @@ public class MainActivity extends Activity{
     private EditText username1, password1;
 	private Button login;
     public static boolean check;
-	private static final String url = "http://students.iitm.ac.in/mobops_testing/login.php";
+	private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud.php";
 	private String name = "";
 	static JSONObject jObj = null;
 	static String jsonstr = "";
@@ -82,7 +82,6 @@ public class MainActivity extends Activity{
 		@Override
 		protected Void doInBackground(Void... params) {
 	     	try {
-	     		Looper.prepare();
 	     		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
 	     		//making sure the input is in Capital letters
 	     		name = username1.getText().toString().toUpperCase();
@@ -92,12 +91,9 @@ public class MainActivity extends Activity{
 	     			jsonstr = new JsonParser().makeHttpRequest(url, "POST", users);
 	     			jObj = new JSONObject(jsonstr);
 	     			success = jObj.getInt("success");
-	     			Log.v("successint", "Now it's "+success);// check LogCat output.
-	     			Log.v("message", jObj.getString("message"));
 	     		} catch(Exception e){
 	     			Log.e("JSON", "JSON failed.");
 	     		}
-	     		Looper.loop();
 	     	} catch (Exception e) {
 	     		Log.e("doInBackground", "failed.  "+e.toString());
 	     	}
