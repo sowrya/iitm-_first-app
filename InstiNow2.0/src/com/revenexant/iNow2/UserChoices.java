@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ public class UserChoices extends Activity implements
 	 * {@link #restoreActionBar()}.
 	 */
 	private boolean finishthis = false;
-	private static final String sett = "mtiiops";
 	SharedPreferences save;
 	private CharSequence mTitle;
 
@@ -138,7 +138,7 @@ public class UserChoices extends Activity implements
 	public boolean runLogout() {
 		finishthis = true;
 		//enter logging out code here please
-		save = getSharedPreferences(sett, 0);
+		save = getSharedPreferences(getString(R.string.sharedprefkey), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = save.edit();
 		editor.remove("loggedin");
 		editor.remove("username");

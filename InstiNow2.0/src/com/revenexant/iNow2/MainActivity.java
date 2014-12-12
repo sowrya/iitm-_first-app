@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends Activity{
-	private static final String sett = "mtiiops";
 	SharedPreferences save;
     private EditText username1, password1;
 	private Button login;
@@ -32,12 +31,13 @@ public class MainActivity extends Activity{
 	private String name = "";
 	static JSONObject jObj = null;
 	static String jsonstr = "";
+	private int success=0;
 	 
 	 @Override
 	protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        try{
-	        save = getSharedPreferences(sett,0);
+	        save = getSharedPreferences(getString(R.string.sharedprefkey),Context.MODE_PRIVATE);
 	        if(save.contains("loggedin")){
 	        	Intent i = new Intent(MainActivity.this, UserChoices.class);
                 startActivity(i);}
@@ -81,7 +81,6 @@ public class MainActivity extends Activity{
 		@SuppressLint("DefaultLocale")
 		@Override
 		protected Void doInBackground(Void... params) {
-			int success=0;
 	     	try {
 	     		Looper.prepare();
 	     		List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
@@ -98,21 +97,6 @@ public class MainActivity extends Activity{
 	     		} catch(Exception e){
 	     			Log.e("JSON", "JSON failed.");
 	     		}
-	     		
-	     		if (success == 1) {
-	     			Toast.makeText(MainActivity.this,
-	     					"Welcome "+name+".",Toast.LENGTH_SHORT).show();
-	     			save = getSharedPreferences(sett,0);
-					SharedPreferences.Editor editor = save.edit();
-				    editor.putBoolean("loggedin", true);
-				    editor.putString("username", username1.getText().toString());
-				    editor.commit();
-				    Intent i = new Intent(MainActivity.this,UserChoices.class);
-					startActivity(i);
-	     		}else{
-	     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_SHORT).show();
-	     			jsonstr = "";
-	     		}
 	     		Looper.loop();
 	     	} catch (Exception e) {
 	     		Log.e("doInBackground", "failed.  "+e.toString());
@@ -123,6 +107,22 @@ public class MainActivity extends Activity{
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+
+     		
+     		if (success == 1) {
+     			Toast.makeText(MainActivity.this,
+     					"Welcome "+name+".",Toast.LENGTH_SHORT).show();
+     			save = getSharedPreferences(getString(R.string.sharedprefkey),Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = save.edit();
+			    editor.putBoolean("loggedin", true);
+			    editor.putString("username", username1.getText().toString());
+			    editor.commit();
+			    Intent i = new Intent(MainActivity.this,UserChoices.class);
+				startActivity(i);
+     		}else{
+     			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_SHORT).show();
+     			jsonstr = "";
+     		}
 		}
 		
 		
