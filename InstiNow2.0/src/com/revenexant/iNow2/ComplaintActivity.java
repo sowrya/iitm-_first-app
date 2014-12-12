@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,10 +33,10 @@ public class ComplaintActivity extends Fragment {
     private static Button submit;
     SharedPreferences save;
     private static List<CheckBox> tags = new ArrayList<CheckBox>();
-    JsonParser jsonparser=new JsonParser();
     private static final String url="http://students.iitm.ac.in/mobops_testing/complaint.php";
 	private static final String ARG_SECTION_NUMBER = "nothing";
 	private static JSONObject jObj = null;
+	JsonParser jp = new JsonParser();
     
     
     public ComplaintActivity(){
@@ -77,6 +78,9 @@ public class ComplaintActivity extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				if(!jp.checkInternetConnection(getActivity())){
+					Toast.makeText(getActivity(), "No net connection.", Toast.LENGTH_SHORT).show();
+				}else{
 				if(title.getText().toString().isEmpty()){
 					Toast.makeText(getActivity(), "Title cannot be empty.", Toast.LENGTH_SHORT).show();
 				}else if(content.getText().toString().isEmpty()){
@@ -94,6 +98,7 @@ public class ComplaintActivity extends Fragment {
 							Log.e("ASync:",e.toString());}//check for AsyncTask error
 					}
 				}//count else
+				}//end of net check
 			}// onClick method end
 		});//end of onClick
         avg_anger.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -110,7 +115,7 @@ public class ComplaintActivity extends Fragment {
 				case 3:
 					pain.setText("Speak to prof about attendance.");break;
 				case 4:
-					pain.setText("No internet connection!");break;
+					pain.setText("The pain of NO INTERNET!");break;
 				case 5:
 					pain.setText("Just had a break-up.");break;
 				default:
@@ -157,7 +162,7 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             posts.add(new BasicNameValuePair("count",Integer.toString(count)));
             //Posting user data to script 
              
-            try{String s =jsonparser.makeHttpRequest(url, "POST", posts);
+            try{String s = jp.makeHttpRequest(url, "POST", posts);
             jObj = new JSONObject(s);
             success = jObj.getInt("success");
             
@@ -166,6 +171,8 @@ class CreateComplaint extends AsyncTask<String, String, String>{
             }
             if (success == 1) {
             	Log.d("message", jObj.getString("message"));
+        		Intent i = new Intent(getActivity(), Thanks.class);
+                startActivity(i);
             	}else{
             		Toast.makeText(getActivity(), "Sorry to add to the pain, but complaint was unsuccessful.",  Toast.LENGTH_SHORT).show();
                   }
@@ -174,12 +181,18 @@ class CreateComplaint extends AsyncTask<String, String, String>{
         }
 		return null;
 	}
+	
+	
 	@Override
 	protected void onPostExecute(String result) {
-		super.onPostExecute(result);
-		Intent i = new Intent(getActivity(), Thanks.class);
-        startActivity(i);}
+		super.onPostExecute(result);}
 	
+}
+	@Override
+	public void onAttach(Activity activity) {
+	super.onAttach(activity);
+	((UserChoices) activity).onSectionAttached(getArguments().getInt(
+			ARG_SECTION_NUMBER));
 }
 
 }

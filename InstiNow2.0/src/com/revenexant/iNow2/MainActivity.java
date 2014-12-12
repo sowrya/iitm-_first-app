@@ -9,10 +9,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +27,7 @@ public class MainActivity extends Activity{
     public static boolean check;
 	private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud.php";
 	private String name = "";
+	JsonParser jp = new JsonParser();
 	static JSONObject jObj = null;
 	static String jsonstr = "";
 	private int success=0;
@@ -61,7 +60,7 @@ public class MainActivity extends Activity{
 	 private boolean NetCheck() {
 		 boolean czech = false;
 		 try{
-			 czech = checkInternetConnection(MainActivity.this);
+			 czech = jp.checkInternetConnection(MainActivity.this);
 		 }catch(Exception e){Toast.makeText(MainActivity.this,"Connection check failed.",Toast.LENGTH_SHORT).show();
 		 return false;}
 		 if(czech){
@@ -88,7 +87,7 @@ public class MainActivity extends Activity{
 	     		users.add(new BasicNameValuePair("roll", name));
 	     		users.add(new BasicNameValuePair("pass", password1.getText().toString()));
 	     		try{
-	     			jsonstr = new JsonParser().makeHttpRequest(url, "POST", users);
+	     			jsonstr = jp.makeHttpRequest(url, "POST", users);
 	     			jObj = new JSONObject(jsonstr);
 	     			success = jObj.getInt("success");
 	     		} catch(Exception e){
@@ -145,16 +144,7 @@ public class MainActivity extends Activity{
 	        return super.onOptionsItemSelected(item);
 	    }
 	    
-	    public static boolean checkInternetConnection(Context context) {
-	    	 
-	    	  ConnectivityManager con_manager = (ConnectivityManager) context
-	    	    .getSystemService(Context.CONNECTIVITY_SERVICE);
-	    	 
-	    	  if (con_manager.getActiveNetworkInfo() != null
-	    	    && con_manager.getActiveNetworkInfo().isAvailable()
-	    	    && con_manager.getActiveNetworkInfo().isConnected()) {
-	    	   return true;} else {return false;}
-	    	}
+	    
 	   
 	    @Override
 		protected void onPause() {
