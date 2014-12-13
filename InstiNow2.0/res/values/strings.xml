@@ -21,8 +21,10 @@
         <item>Insti Events</item>
         <item>T5E Updates!</item>
         <item>Feedback Portal</item>
+        <item>Display Posts</item>
     </string-array>
 
     <string name="title_activity_thanks">Thanks</string>
+    <string name="title_activity_display_posts">DisplayPosts</string>
 
 </resources>

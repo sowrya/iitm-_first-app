@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +32,7 @@ public class UserChoices extends Activity implements
 	 */
 	private boolean finishthis = false;
 	SharedPreferences save;
-	private CharSequence mTitle;
+	private CharSequence[] mTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class UserChoices extends Activity implements
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
-		mTitle = getTitle();
+		mTitle = getResources().getStringArray(R.array.navdrawer_items);
 
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
@@ -74,6 +75,10 @@ public class UserChoices extends Activity implements
 			fragmentManager.beginTransaction().replace(R.id.container,
 					ComplaintActivity.newInstance(position + 1)).commit();
 			break;
+		case 4:
+			try{fragmentManager.beginTransaction().replace(R.id.container,new DisplayPosts()).commit();}
+			catch(Exception e){Log.e("DisplayPost", "can't even begin");}
+			break;
 		default:
 			fragmentManager.beginTransaction().replace(R.id.container,
 					PlaceholderFragment.newInstance(position + 1)).commit();
@@ -82,27 +87,13 @@ public class UserChoices extends Activity implements
 	}
 
 	public void onSectionAttached(int number) {
-		switch (number) {
-		case 1:
-			mTitle = getString(R.string.title_section1);
-			break;
-		case 2:
-			mTitle = getString(R.string.title_section2);
-			break;
-		case 3:
-			mTitle = getString(R.string.title_section3);
-			break;
-		case 4:
-			mTitle = getString(R.string.title_section4);
-			break;
+		getActionBar().setTitle(mTitle[number-1]);
 		}
-	}
 
 	public void restoreActionBar() {
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(mTitle);
 	}
 
 	@Override

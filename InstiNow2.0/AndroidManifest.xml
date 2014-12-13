@@ -53,6 +53,10 @@
             android:name=".Thanks"
             android:label="@string/title_activity_thanks" >
         </activity>
+        <activity
+            android:name=".DisplayPosts"
+            android:label="@string/title_activity_display_posts" >
+        </activity>
     </application>
 
 </manifest>

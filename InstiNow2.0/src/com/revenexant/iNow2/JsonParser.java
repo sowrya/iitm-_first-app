@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -25,6 +26,7 @@ public class JsonParser {
     static InputStream is = null;
     static JSONObject jObj = null;
     static String jsonstr = "0";
+    StringBuilder sb;
 
     // constructor
     public JsonParser() {
@@ -65,9 +67,8 @@ public class JsonParser {
         }
 
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    is, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+            sb = new StringBuilder();
             String line = null;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
@@ -95,6 +96,17 @@ public class JsonParser {
   	    && con_manager.getActiveNetworkInfo().isConnected()) {
   	   return true;} else {return false;}
   	}
+    
+    public JSONObject returnJson(){
+    	JSONObject p = null;
+    	try {
+			p =  new JSONObject(sb.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			Log.e("returnJson", "Cup");
+		}
+    	return p;
+    }
 
 	
 }
