@@ -16,6 +16,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 public class JsonParser {
@@ -82,6 +84,17 @@ public class JsonParser {
         
         return jsonstr;
     }
+    
+    public boolean checkInternetConnection(Context context) {
+   	 
+  	  ConnectivityManager con_manager = (ConnectivityManager) context
+  	    .getSystemService(Context.CONNECTIVITY_SERVICE);
+  	 
+  	  if (con_manager.getActiveNetworkInfo() != null
+  	    && con_manager.getActiveNetworkInfo().isAvailable()
+  	    && con_manager.getActiveNetworkInfo().isConnected()) {
+  	   return true;} else {return false;}
+  	}
 
 	
 }
