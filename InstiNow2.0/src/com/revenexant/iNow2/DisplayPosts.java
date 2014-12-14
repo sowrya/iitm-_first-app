@@ -7,6 +7,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -60,6 +61,7 @@ public class DisplayPosts extends Fragment {
 
 		@Override
 		protected String doInBackground(String... params) {
+			getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 			List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
      		//making sure the input is in Capital letters
      		users.add(new BasicNameValuePair("roll", "check"));
