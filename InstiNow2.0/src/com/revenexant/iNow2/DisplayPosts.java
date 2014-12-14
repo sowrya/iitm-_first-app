@@ -24,7 +24,7 @@ public class DisplayPosts extends Fragment {
 	
 	private JsonParser jp = new JsonParser();
 	private JSONObject jObj;
-	private static final String url="http://10.42.0.1/displayposts.php";
+	private static final String url="http://students.iitm.ac.in/mobops_testing/displayposts.php";
 	static Random r = new Random();
 	private static LinearLayout lin;
 	private static TextView ping;
