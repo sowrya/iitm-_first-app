@@ -28,11 +28,6 @@ public class UserChoices extends Activity implements
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 
-	/**
-	 * Used to store the last screen title. For use in
-	 * {@link #restoreActionBar()}.
-	 */
-	private boolean finishthis = false;
 	SharedPreferences save;
 	private CharSequence[] mTitle;
 
@@ -136,7 +131,6 @@ public class UserChoices extends Activity implements
 	//the runLogout function if logout is pressed.
 	
 	public boolean runLogout() {
-		finishthis = true;
 		//enter logging out code here please
 		save = getSharedPreferences(getString(R.string.sharedprefkey), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = save.edit();
@@ -188,5 +182,19 @@ public class UserChoices extends Activity implements
 					ARG_SECTION_NUMBER));
 		}
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+	
+	
 
 }

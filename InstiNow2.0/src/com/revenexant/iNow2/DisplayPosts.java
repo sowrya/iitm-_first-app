@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class DisplayPosts extends Fragment {
 	static Random r = new Random();
 	private static LinearLayout lin;
 	private static TextView ping;
+	private static ProgressBar spin;
 	private static int success = 0;
 	private static String[] heading;
 	private static String[] box;
@@ -47,6 +49,8 @@ public class DisplayPosts extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.frag_displayposts, container, false);
 		lin = (LinearLayout) rootView.findViewById(R.id.lindisplay);
+		spin = (ProgressBar) rootView.findViewById(R.id.spindisp);
+		spin.setVisibility(View.VISIBLE);
 		ring = getActivity(); ringRes = getResources();
 		if(!jp.checkInternetConnection(ring)){
 			Toast.makeText(ring, "No net connection.", Toast.LENGTH_SHORT).show();
@@ -95,6 +99,7 @@ public class DisplayPosts extends Fragment {
 	public static void changeStuffUp() {
 		if(success==0){
 			try{
+				lin.removeView(spin);
 			ping = new TextView(ring);
 			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 			ping.setText("No posts to display at the moment."); ping.setVisibility(View.VISIBLE);

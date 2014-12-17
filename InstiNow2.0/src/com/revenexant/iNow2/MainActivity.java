@@ -18,12 +18,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MainActivity extends Activity{
 	SharedPreferences save;
     private EditText username1, password1;
 	private Button login;
+	private ProgressBar spinner;
     public static boolean check;
 	private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud.php";
 	private String name = "";
@@ -46,11 +48,14 @@ public class MainActivity extends Activity{
 	        	username1=(EditText) findViewById(R.id.editText1);
 	        	password1=(EditText) findViewById(R.id.editText2);
 	        	login=(Button) findViewById(R.id.button1);
+	        	spinner = (ProgressBar)findViewById(R.id.spinner);
+	        	spinner.setVisibility(View.GONE);
 	        	login.setOnClickListener(new OnClickListener() {
 				
 	        		@Override
 				public void onClick(View v) {
 					//check connectivity
+	        		spinner.setVisibility(View.VISIBLE);
 					NetCheck();
 				}
 			});//end OnClickListener

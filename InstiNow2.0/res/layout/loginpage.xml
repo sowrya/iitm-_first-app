@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B4F000" >
+    android:background="@color/bgcolour" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" 
         android:padding="50dp"
@@ -14,16 +14,20 @@
         
         <EditText
             android:id="@+id/editText1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:padding="13dp"
+            android:background="@drawable/edittextcustom"
             android:hint="Username" />
 
         <EditText
             android:id="@+id/editText2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:padding="13dp"
+            android:background="@drawable/edittextcustom"
             android:layout_marginTop="30dp"
             android:hint="Password"
             android:inputType="textPassword" >
@@ -41,6 +45,13 @@
             android:layout_gravity="center"
             android:text="Login!"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ProgressBar android:id="@+id/spinner"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
     </LinearLayout>
     
 
