@@ -34,7 +34,6 @@ public class ComplaintActivity extends Fragment {
     SharedPreferences save;
     private static List<CheckBox> tags = new ArrayList<CheckBox>();
     private static final String url="http://students.iitm.ac.in/mobops_testing/complaint.php";
-	private static final String ARG_SECTION_NUMBER = "nothing";
 	private static JSONObject jObj = null;
 	JsonParser jp = new JsonParser();
     
@@ -45,7 +44,7 @@ public class ComplaintActivity extends Fragment {
 	public static ComplaintActivity newInstance(int sectionNumber) {
     	ComplaintActivity fragment = new ComplaintActivity();
 		Bundle args = new Bundle();
-		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+		args.putInt("section_number", sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -192,7 +191,7 @@ class CreateComplaint extends AsyncTask<String, String, String>{
 	public void onAttach(Activity activity) {
 	super.onAttach(activity);
 	((UserChoices) activity).onSectionAttached(getArguments().getInt(
-			ARG_SECTION_NUMBER));
+			"section_number"));
 }
 
 }

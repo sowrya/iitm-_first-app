@@ -21,9 +21,9 @@
                 android:gravity="center"
                 android:layout_marginBottom="20dp"
                 />
-            <ProgressBar android:id="@+id/spindisp"
+            <Button android:id="@+id/dispload"
+                android:text="Load" android:background="@drawable/mybutton"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                style="?android:attr/progressBarStyleLarge"
                 android:layout_gravity="center"/>
             
         </LinearLayout>

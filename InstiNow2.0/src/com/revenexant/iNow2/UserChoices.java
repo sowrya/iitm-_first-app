@@ -75,12 +75,18 @@ public class UserChoices extends Activity implements
 		FragmentManager fragmentManager = getFragmentManager();
 		
 		switch(position){
+		case 2:
+			try{fragmentManager.beginTransaction().replace(R.id.container,
+					ExecWingDisp.newInstance(position+1)).commit();}
+			catch(Exception e){Log.e("ExecDisp", "can't even begin");}
+			break;
 		case 3:
 			fragmentManager.beginTransaction().replace(R.id.container,
 					ComplaintActivity.newInstance(position + 1)).commit();
 			break;
 		case 4:
-			try{fragmentManager.beginTransaction().replace(R.id.container,new DisplayPosts()).commit();}
+			try{fragmentManager.beginTransaction().replace(R.id.container,
+					DisplayPosts.newInstance(position+1)).commit();}
 			catch(Exception e){Log.e("DisplayPost", "can't even begin");}
 			break;
 		default:
@@ -151,7 +157,7 @@ public class UserChoices extends Activity implements
 		 * fragment.
 		 */
 		private static final String ARG_SECTION_NUMBER = "section_number";
-		private static int frags[] = {R.layout.frag_execwing,R.layout.frag_instievents,R.layout.frag_t5e,R.layout.frag_execwing,};
+		private static int frags[] = {R.layout.frag_instievents,R.layout.frag_t5e,R.layout.frag_execwing};
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.

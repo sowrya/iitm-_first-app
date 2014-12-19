@@ -1,4 +1,3 @@
-
 package com.revenexant.iNow2;
 
 import java.util.ArrayList;
@@ -23,38 +22,41 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DisplayPosts extends Fragment {
+public class ExecWingDisp extends Fragment {
 	
 	private JsonParser jp = new JsonParser();
 	private JSONObject jObj;
-	private static final String url="http://students.iitm.ac.in/mobops_testing/displayposts.php";
+	private static final String url="http://students.iitm.ac.in/mobops_testing/execwingposts.php";
 	static Random r = new Random();
-	private static LinearLayout displin;
-	private static Button DispLoad;
+	private static LinearLayout execlin;
+	private static Button ExecLoad;
 	private static TextView ping;
-	private static ProgressBar dispspin;
+	private static ProgressBar execspin;
 	private static int success = 0;
 	private static String[] heading;
 	private static String[] box;
 	private static Activity ring;
 	private static Resources ringRes;
-
-	public static DisplayPosts newInstance(int sectionNumber) {
-    	DisplayPosts fragment = new DisplayPosts();
+	
+	
+	public ExecWingDisp() {
+		
+	}
+	public static ExecWingDisp newInstance(int sectionNumber) {
+    	ExecWingDisp fragment = new ExecWingDisp();
 		Bundle args = new Bundle();
 		args.putInt("section_number", sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
-	public DisplayPosts(){}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.frag_displayposts, container, false);
-		displin = (LinearLayout) rootView.findViewById(R.id.lindisplay);
-		DispLoad = (Button) rootView.findViewById(R.id.dispload);
-		DispLoad.setOnClickListener(new View.OnClickListener() {
+		View rootView = inflater.inflate(R.layout.frag_execwing, container, false);
+		execlin = (LinearLayout) rootView.findViewById(R.id.execlindisplay);
+		ExecLoad = (Button) rootView.findViewById(R.id.execload);
+		ExecLoad.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -62,7 +64,7 @@ public class DisplayPosts extends Fragment {
 					Toast.makeText(ring, "No net connection.", Toast.LENGTH_SHORT).show();
 				} else {
 					loading();
-					new GetDisplayPosts().execute();
+					new GetExecPosts().execute();
 				}
 				
 			}
@@ -71,47 +73,20 @@ public class DisplayPosts extends Fragment {
 		return rootView;
 	}
 	
-	private void loading(){
-		dispspin = new ProgressBar(getActivity());
-		dispspin.setVisibility(View.VISIBLE);
-		displin.removeView(DispLoad);
-		displin.addView(dispspin);
-	}
-	public static void changeStuffUp() {
-		displin.removeView(dispspin);
-		if(success==0){
-			try{
-			ping = new TextView(ring);
-			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-			ping.setText("No posts to display at the moment."); ping.setVisibility(View.VISIBLE);
-			ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
-			ping.setTextSize(20);
-			displin.addView(ping);} catch(Exception ei){Log.v("Display", ei.toString());}
-		} else {
-			for(int i=0;i<success && i<100;i++){
-				try{
-				ping = new TextView(ring);
-				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				ping.setText(heading[i]); ping.setVisibility(View.VISIBLE);
-				ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
-				ping.setTextSize(20); ping.setId(0x00+i);
-				displin.addView(ping);
-				ping = new TextView(ring);
-				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				ping.setText(box[i]); ping.setVisibility(View.VISIBLE);
-				ping.setBackground(ringRes.getDrawable(R.drawable.borderradius));
-				ping.setTextSize(18); ping.setId(0xd00+i);
-				displin.addView(ping);} catch(Exception be){Log.e("Multiple", be.toString());}
-			} //end for
-		} //end else
+	private void loading() {
+		execspin = new ProgressBar(getActivity());
+		execspin.setVisibility(View.VISIBLE);
+		execlin.removeView(ExecLoad);
+		execlin.addView(execspin);
+		
 	}
 	
-	class GetDisplayPosts extends AsyncTask<String, String, String>{
+	class GetExecPosts extends AsyncTask<String, String, String>{
 
 		@Override
 		protected String doInBackground(String... params) {
 			List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
-     		//making sure the input is in Capital letters
+     		//null input. garbage
      		users.add(new BasicNameValuePair("roll", "check"));
 			jp.makeHttpRequest(url, "POST", users);
 			try{jObj = jp.returnJson();}catch(Exception e){Log.v("JSON", "Line 1.");}
@@ -136,15 +111,43 @@ public class DisplayPosts extends Fragment {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			DisplayPosts.changeStuffUp();}
+			ExecWingDisp.changeStuffUp();}
 		
 	}
-	
+
+	public static void changeStuffUp() {
+		execlin.removeView(execspin);
+		if(success==0){
+			try{
+			ping = new TextView(ring);
+			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			ping.setText("No posts to display at the moment."); ping.setVisibility(View.VISIBLE);
+			ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+			ping.setTextSize(20);
+			execlin.addView(ping);} catch(Exception ei){Log.v("Display", ei.toString());}
+		} else {
+			for(int i=0;i<success && i<100;i++){
+				try{
+				ping = new TextView(ring);
+				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+				ping.setText(heading[i]); ping.setVisibility(View.VISIBLE);
+				ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+				ping.setTextSize(20); ping.setId(0x00+i);
+				execlin.addView(ping);
+				ping = new TextView(ring);
+				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+				ping.setText(box[i]); ping.setVisibility(View.VISIBLE);
+				ping.setBackground(ringRes.getDrawable(R.drawable.borderradius));
+				ping.setTextSize(18); ping.setId(0xd00+i);
+				execlin.addView(ping);} catch(Exception be){Log.e("Multiple", be.toString());}
+			}
+		}
+		
+	}
 	@Override
 	public void onAttach(Activity activity) {
 	super.onAttach(activity);
 	((UserChoices) activity).onSectionAttached(getArguments().getInt(
 			"section_number"));
 	}
-
 }
