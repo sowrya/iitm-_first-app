@@ -1,22 +1,19 @@
 package com.revenexant.iNow2;
 
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.util.Log;
@@ -34,7 +31,7 @@ public class JsonParser {
     }
 
   
-    public String makeHttpRequest(String url, String method,List<BasicNameValuePair> params) {
+    public String makeHttpRequest(String url, String method,List<BasicNameValuePair> params){
 		 
         try {
 
@@ -42,24 +39,39 @@ public class JsonParser {
             if(method.compareTo("POST")==0){
                 // request method is POST
                 // defaultHttpClient
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
-                httpPost.setEntity(new UrlEncodedFormEntity(params));
+            	
+                DefaultHttpClient httpClient = null;
+				HttpPost httpPost = null;
+				try {
+					httpClient = new DefaultHttpClient();
+					httpPost = new HttpPost(url);
+					httpPost.setEntity(new UrlEncodedFormEntity(params));
+				} catch (Exception e1) {
+					Log.v("Part 1", e1.toString());
+				}
 
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
+                HttpResponse httpResponse = null;
+				try {
+					httpResponse = httpClient.execute(httpPost);
+				} catch (Exception e2) {
+					Log.v("No response", e2.toString());
+				}
+                HttpEntity httpEntity = null;
+				try {
+					httpEntity = httpResponse.getEntity();
+				} catch (Exception e3) {
+					Log.v("No entity", e3.toString());
+				}
+                try {
+					is = httpEntity.getContent();
+				} catch (Exception e4) {
+					Log.v("No content", e4.toString());
+				}
 
             }else if(method.compareTo("GET")==0){
                 // request method is GET
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                String paramString = URLEncodedUtils.format(params, "utf-8");
-                url += "?" + paramString;
-                HttpGet httpGet = new HttpGet(url);
-
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
+            	URLConnection urlConnection = new URL(url).openConnection();
+				is = urlConnection.getInputStream();
             }           
 
         } catch (Exception e) {
@@ -102,7 +114,6 @@ public class JsonParser {
     	try {
 			p =  new JSONObject(sb.toString());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			Log.e("returnJson", "Cup");
 		}
     	return p;

@@ -26,7 +26,7 @@ public class ExecWingDisp extends Fragment {
 	
 	private JsonParser jp = new JsonParser();
 	private JSONObject jObj;
-	private static final String url="http://students.iitm.ac.in/mobops_testing/execwingposts.php";
+	private static final String url="https://students.iitm.ac.in/mobops_testing/execwingposts.php";
 	static Random r = new Random();
 	private static LinearLayout execlin;
 	private static Button ExecLoad;
@@ -88,7 +88,11 @@ public class ExecWingDisp extends Fragment {
 			List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
      		//null input. garbage
      		users.add(new BasicNameValuePair("roll", "check"));
-			jp.makeHttpRequest(url, "POST", users);
+			try {
+				jp.makeHttpRequest(url, "POST", users);
+			} catch (Exception e1) {
+				Log.v("Exec to JSON", e1.toString());
+			}
 			try{jObj = jp.returnJson();}catch(Exception e){Log.v("JSON", "Line 1.");}
 			try{
 				success = jObj.getInt("success");

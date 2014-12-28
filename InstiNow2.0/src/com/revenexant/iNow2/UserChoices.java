@@ -188,6 +188,17 @@ public class UserChoices extends Activity implements
 					ARG_SECTION_NUMBER));
 		}
 	}
+	
+	public void intentStarter(String heading,String box){
+		Intent i = new Intent(this, PopUpActivity.class);
+		try{
+		i.putExtra("heading", heading);
+		i.putExtra("box", box);
+		startActivity(i);
+		} catch (Exception ez) {
+			Log.d("iEnd",ez.toString());
+		}
+	}
 
 	@Override
 	protected void onResume() {

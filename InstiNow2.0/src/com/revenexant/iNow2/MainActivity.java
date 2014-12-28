@@ -27,7 +27,7 @@ public class MainActivity extends Activity{
 	private Button login;
 	private ProgressBar spinner;
     public static boolean check;
-	private static final String url = "http://students.iitm.ac.in/mobops_testing/thoughtcloud.php";
+	private static final String url = "https://students.iitm.ac.in/mobops_testing/thoughtcloud.php";
 	private String name = "";
 	JsonParser jp = new JsonParser();
 	static JSONObject jObj = null;

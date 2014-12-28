@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -17,8 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +31,7 @@ public class DisplayPosts extends Fragment {
 	
 	private JsonParser jp = new JsonParser();
 	private JSONObject jObj;
-	private static final String url="http://students.iitm.ac.in/mobops_testing/displayposts.php";
+	private static final String url="https://students.iitm.ac.in/mobops_testing/displayposts.php";
 	static Random r = new Random();
 	private static LinearLayout displin;
 	private static Button DispLoad;
@@ -51,6 +55,7 @@ public class DisplayPosts extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		ring = (UserChoices)getActivity(); ringRes = getResources();
 		View rootView = inflater.inflate(R.layout.frag_displayposts, container, false);
 		displin = (LinearLayout) rootView.findViewById(R.id.lindisplay);
 		DispLoad = (Button) rootView.findViewById(R.id.dispload);
@@ -67,7 +72,7 @@ public class DisplayPosts extends Fragment {
 				
 			}
 		});
-		ring = getActivity(); ringRes = getResources();
+		
 		return rootView;
 	}
 	
@@ -77,32 +82,35 @@ public class DisplayPosts extends Fragment {
 		displin.removeView(DispLoad);
 		displin.addView(dispspin);
 	}
-	public static void changeStuffUp() {
+	public void changeStuffUp() {
 		displin.removeView(dispspin);
 		if(success==0){
-			try{
 			ping = new TextView(ring);
 			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 			ping.setText("No posts to display at the moment."); ping.setVisibility(View.VISIBLE);
 			ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
 			ping.setTextSize(20);
-			displin.addView(ping);} catch(Exception ei){Log.v("Display", ei.toString());}
+			displin.addView(ping);
 		} else {
-			for(int i=0;i<success && i<100;i++){
-				try{
-				ping = new TextView(ring);
-				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				ping.setText(heading[i]); ping.setVisibility(View.VISIBLE);
-				ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
-				ping.setTextSize(20); ping.setId(0x00+i);
-				displin.addView(ping);
-				ping = new TextView(ring);
-				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				ping.setText(box[i]); ping.setVisibility(View.VISIBLE);
-				ping.setBackground(ringRes.getDrawable(R.drawable.borderradius));
-				ping.setTextSize(18); ping.setId(0xd00+i);
-				displin.addView(ping);} catch(Exception be){Log.e("Multiple", be.toString());}
-			} //end for
+			try{
+				ListView displist = new ListView(ring);
+				displist.setBackgroundColor(Color.WHITE);
+				displist.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				ArrayAdapter<String> aa = new ArrayAdapter<String>(ring, android.R.layout.simple_list_item_1, heading);
+				displist.setAdapter(aa);
+				displist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						try {
+							((UserChoices) ring).intentStarter(heading[position], box[position]);
+						} catch (Exception e) {
+							Log.d("Started", e.toString());
+						}
+					}
+				});
+				displin.addView(displist);} catch(Exception ei){Log.v("Display", ei.toString());}
+			//} //end for
 		} //end else
 	}
 	
@@ -113,7 +121,7 @@ public class DisplayPosts extends Fragment {
 			List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
      		//making sure the input is in Capital letters
      		users.add(new BasicNameValuePair("roll", "check"));
-			jp.makeHttpRequest(url, "POST", users);
+     	    jp.makeHttpRequest(url, "GET", users);
 			try{jObj = jp.returnJson();}catch(Exception e){Log.v("JSON", "Line 1.");}
 			try{
 				success = jObj.getInt("success");
@@ -136,7 +144,8 @@ public class DisplayPosts extends Fragment {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			DisplayPosts.changeStuffUp();}
+			DisplayPosts dp = new DisplayPosts();
+			dp.changeStuffUp();}
 		
 	}
 	
@@ -146,5 +155,15 @@ public class DisplayPosts extends Fragment {
 	((UserChoices) activity).onSectionAttached(getArguments().getInt(
 			"section_number"));
 	}
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+	
+	
 
 }

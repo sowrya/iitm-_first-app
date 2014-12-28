@@ -41,13 +41,7 @@
         <activity
             android:name=".ComplaintActivity"
             android:label="@string/title_activity_complaint"
-            android:parentActivityName=".UserChoices"
-            android:theme="@android:style/Theme.Holo.Light" >
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UserChoices" />
+            android:parentActivityName=".UserChoices">
         </activity>
         <activity
             android:name=".Thanks"
@@ -55,11 +49,17 @@
         </activity>
         <activity
             android:name=".DisplayPosts"
-            android:label="@string/title_activity_display_posts" >
+            android:label="@string/title_activity_display_posts"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".ExecWingDisp"
             android:label="@string/title_execwing">
+        </activity>
+        <activity
+            android:name=".PopUpActivity"
+            android:label="@string/title_popup">
+            
         </activity>
     </application>
 

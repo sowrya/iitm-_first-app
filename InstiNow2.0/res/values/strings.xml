@@ -28,5 +28,6 @@
     <string name="title_activity_thanks">Thanks</string>
     <string name="title_activity_display_posts">DisplayPosts</string>
     <string name="title_execwing">Executive Posts</string>
+    <string name="title_popup">Complaint Display</string>
 
 </resources>
