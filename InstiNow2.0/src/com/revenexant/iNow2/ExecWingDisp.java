@@ -7,7 +7,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,8 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,18 +38,15 @@ public class ExecWingDisp extends Fragment {
 	private static String[] heading;
 	private static String[] box;
 	private static Activity ring;
-	private static Resources ringRes;
 	
-	
-	public ExecWingDisp() {
-		
-	}
-	public static ExecWingDisp newInstance(int sectionNumber) {
-    	ExecWingDisp fragment = new ExecWingDisp();
+	public static ExecWingDisp newInstance() {
+		ExecWingDisp fragment = new ExecWingDisp();
 		Bundle args = new Bundle();
-		args.putInt("section_number", sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
+	}
+	public ExecWingDisp() {
+		
 	}
 
 	@Override
@@ -69,7 +68,7 @@ public class ExecWingDisp extends Fragment {
 				
 			}
 		});
-		ring = getActivity(); ringRes = getResources();
+		ring = getActivity();
 		return rootView;
 	}
 	
@@ -130,28 +129,32 @@ public class ExecWingDisp extends Fragment {
 			ping.setTextSize(20);
 			execlin.addView(ping);} catch(Exception ei){Log.v("Display", ei.toString());}
 		} else {
-			for(int i=0;i<success && i<100;i++){
-				try{
-				ping = new TextView(ring);
-				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				ping.setText(heading[i]); ping.setVisibility(View.VISIBLE);
-				ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
-				ping.setTextSize(20); ping.setId(0x00+i);
-				execlin.addView(ping);
-				ping = new TextView(ring);
-				ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				ping.setText(box[i]); ping.setVisibility(View.VISIBLE);
-				ping.setBackground(ringRes.getDrawable(R.drawable.borderradius));
-				ping.setTextSize(18); ping.setId(0xd00+i);
-				execlin.addView(ping);} catch(Exception be){Log.e("Multiple", be.toString());}
-			}
+			try{
+				ListView displist = new ListView(ring);
+				displist.setBackgroundColor(Color.WHITE);
+				displist.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				ArrayAdapter<String> aa = new ArrayAdapter<String>(ring, android.R.layout.simple_list_item_1, heading);
+				displist.setAdapter(aa);
+				displist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						try {
+							((UserChoices) ring).popUpStarter(heading[position], box[position]);
+						} catch (Exception e) {
+							Log.d("Started", e.toString());
+						}
+					}
+				});
+				execlin.addView(displist);} catch(Exception ei){Log.v("Display", ei.toString());}
 		}
 		
 	}
+
 	@Override
 	public void onAttach(Activity activity) {
-	super.onAttach(activity);
-	((UserChoices) activity).onSectionAttached(getArguments().getInt(
-			"section_number"));
+		super.onAttach(activity);
+		((UserChoices) activity).onSectionAttached(3);
 	}
+	
 }

@@ -27,6 +27,8 @@ public class UserChoices extends Activity implements
 	 * navigation drawer.
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
+	private FragmentManager fragmentManager;
+	private boolean inPopUp = false;
 
 	SharedPreferences save;
 	private CharSequence[] mTitle;
@@ -49,6 +51,7 @@ public class UserChoices extends Activity implements
 
 	@Override
 	public void onBackPressed() {
+		if(!inPopUp){
 		 new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
          .setMessage("Are you sure?")
          .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -62,6 +65,10 @@ public class UserChoices extends Activity implements
                  finish();
              }
          }).setNegativeButton("No", null).show();
+		}else{
+			fragmentManager.popBackStack();
+			inPopUp=false;
+		}
 	}
 
 
@@ -72,21 +79,21 @@ public class UserChoices extends Activity implements
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager = getFragmentManager();
 		
 		switch(position){
 		case 2:
 			try{fragmentManager.beginTransaction().replace(R.id.container,
-					ExecWingDisp.newInstance(position+1)).commit();}
+					ExecWingDisp.newInstance()).commit();}
 			catch(Exception e){Log.e("ExecDisp", "can't even begin");}
 			break;
 		case 3:
 			fragmentManager.beginTransaction().replace(R.id.container,
-					ComplaintActivity.newInstance(position + 1)).commit();
+					ComplaintActivity.newInstance()).commit();
 			break;
 		case 4:
 			try{fragmentManager.beginTransaction().replace(R.id.container,
-					DisplayPosts.newInstance(position+1)).commit();}
+					DisplayPosts.newInstance()).commit();}
 			catch(Exception e){Log.e("DisplayPost", "can't even begin");}
 			break;
 		default:
@@ -94,6 +101,12 @@ public class UserChoices extends Activity implements
 					PlaceholderFragment.newInstance(position + 1)).commit();
 			break;
 		}
+	}
+	
+	public void popUpStarter(String heading,String box){
+		inPopUp = true;
+		fragmentManager.beginTransaction().replace(R.id.container, PopUpActivity.newInstance(heading, box))
+		.addToBackStack(null).commit();
 	}
 
 	public void onSectionAttached(int number) {
@@ -188,30 +201,6 @@ public class UserChoices extends Activity implements
 					ARG_SECTION_NUMBER));
 		}
 	}
-	
-	public void intentStarter(String heading,String box){
-		Intent i = new Intent(this, PopUpActivity.class);
-		try{
-		i.putExtra("heading", heading);
-		i.putExtra("box", box);
-		startActivity(i);
-		} catch (Exception ez) {
-			Log.d("iEnd",ez.toString());
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
-
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-	
 	
 
 }

@@ -8,8 +8,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,21 +39,20 @@ public class DisplayPosts extends Fragment {
 	private static String[] heading;
 	private static String[] box;
 	private static Activity ring;
-	private static Resources ringRes;
-
-	public static DisplayPosts newInstance(int sectionNumber) {
-    	DisplayPosts fragment = new DisplayPosts();
+	
+	public static DisplayPosts newInstance() {
+		DisplayPosts fragment = new DisplayPosts();
 		Bundle args = new Bundle();
-		args.putInt("section_number", sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
+	
 	public DisplayPosts(){}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ring = (UserChoices)getActivity(); ringRes = getResources();
+		ring = (UserChoices)getActivity();
 		View rootView = inflater.inflate(R.layout.frag_displayposts, container, false);
 		displin = (LinearLayout) rootView.findViewById(R.id.lindisplay);
 		DispLoad = (Button) rootView.findViewById(R.id.dispload);
@@ -103,7 +100,7 @@ public class DisplayPosts extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						try {
-							((UserChoices) ring).intentStarter(heading[position], box[position]);
+							((UserChoices) ring).popUpStarter(heading[position], box[position]);
 						} catch (Exception e) {
 							Log.d("Started", e.toString());
 						}
@@ -148,21 +145,13 @@ public class DisplayPosts extends Fragment {
 			dp.changeStuffUp();}
 		
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
-	super.onAttach(activity);
-	((UserChoices) activity).onSectionAttached(getArguments().getInt(
-			"section_number"));
+		super.onAttach(activity);
+		((UserChoices) activity).onSectionAttached(5);
 	}
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
+	
 	
 	
 

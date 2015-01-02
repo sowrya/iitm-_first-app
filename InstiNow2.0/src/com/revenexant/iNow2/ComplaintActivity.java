@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -37,17 +36,15 @@ public class ComplaintActivity extends Fragment {
 	private static JSONObject jObj = null;
 	JsonParser jp = new JsonParser();
     
-    
-    public ComplaintActivity(){
-    	
-    }
-	public static ComplaintActivity newInstance(int sectionNumber) {
-    	ComplaintActivity fragment = new ComplaintActivity();
+	public static ComplaintActivity newInstance() {
+		ComplaintActivity fragment = new ComplaintActivity();
 		Bundle args = new Bundle();
-		args.putInt("section_number", sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
+    public ComplaintActivity(){
+    	
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -185,13 +182,15 @@ class CreateComplaint extends AsyncTask<String, String, String>{
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);}
-	
-}
-	@Override
-	public void onAttach(Activity activity) {
+	}
+
+
+@Override
+public void onAttach(Activity activity) {
 	super.onAttach(activity);
-	((UserChoices) activity).onSectionAttached(getArguments().getInt(
-			"section_number"));
+	((UserChoices) activity).onSectionAttached(4);
 }
+
+	
 
 }
