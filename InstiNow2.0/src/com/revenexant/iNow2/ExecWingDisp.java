@@ -28,7 +28,7 @@ public class ExecWingDisp extends Fragment {
 	
 	private JsonParser jp = new JsonParser();
 	private JSONObject jObj;
-	private static final String url="https://students.iitm.ac.in/mobops_testing/execwingposts.php";
+	private static final String url="https://students.iitm.ac.in/mobops_testing/execposts.php";
 	static Random r = new Random();
 	private static LinearLayout execlin;
 	private static Button ExecLoad;
@@ -88,7 +88,7 @@ public class ExecWingDisp extends Fragment {
      		//null input. garbage
      		users.add(new BasicNameValuePair("roll", "check"));
 			try {
-				jp.makeHttpRequest(url, "POST", users);
+				jp.makeHttpRequest(url, "GET", users);
 			} catch (Exception e1) {
 				Log.v("Exec to JSON", e1.toString());
 			}
@@ -101,7 +101,7 @@ public class ExecWingDisp extends Fragment {
 						heading[i] = jObj.getString("id"+i)+"\t"+jObj.getString("user"+i)+": "+jObj.getString("title"+i);
 						box[i] = jObj.getString("content"+i)+"\n"+jObj.getString("created_at"+i)+"  "
 						+jObj.getInt("solved"+i)+"  "+jObj.getString("solved_at"+i)+"\t"+
-								jObj.getString("avg_anger"+i);
+								jObj.getString("avg_rate"+i);
 						} catch(Exception be){Log.e("Multiple", be.toString());}
 					}
 				} catch(Exception e){
@@ -121,13 +121,12 @@ public class ExecWingDisp extends Fragment {
 	public static void changeStuffUp() {
 		execlin.removeView(execspin);
 		if(success==0){
-			try{
 			ping = new TextView(ring);
 			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 			ping.setText("No posts to display at the moment."); ping.setVisibility(View.VISIBLE);
 			ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
 			ping.setTextSize(20);
-			execlin.addView(ping);} catch(Exception ei){Log.v("Display", ei.toString());}
+			execlin.addView(ping);
 		} else {
 			try{
 				ListView displist = new ListView(ring);
@@ -147,8 +146,8 @@ public class ExecWingDisp extends Fragment {
 					}
 				});
 				execlin.addView(displist);} catch(Exception ei){Log.v("Display", ei.toString());}
-		}
-		
+			//} //end for
+		} //end else
 	}
 
 	@Override
