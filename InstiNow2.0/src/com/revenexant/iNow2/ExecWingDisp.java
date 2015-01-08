@@ -88,7 +88,7 @@ public class ExecWingDisp extends Fragment {
      		//null input. garbage
      		users.add(new BasicNameValuePair("roll", "check"));
 			try {
-				jp.makeHttpRequest(url, "GET", users);
+				jp.makeHttpRequest(url, "POST", users);
 			} catch (Exception e1) {
 				Log.v("Exec to JSON", e1.toString());
 			}

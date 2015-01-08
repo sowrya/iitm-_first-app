@@ -3,9 +3,13 @@ package com.revenexant.iNow2;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -37,36 +41,24 @@ public class JsonParser {
 
             // check for request method. Standard stuff
             if(method.compareTo("POST")==0){
-                // request method is POST
-                // defaultHttpClient
-            	
-                DefaultHttpClient httpClient = null;
-				HttpPost httpPost = null;
-				try {
-					httpClient = new DefaultHttpClient();
-					httpPost = new HttpPost(url);
-					httpPost.setEntity(new UrlEncodedFormEntity(params));
-				} catch (Exception e1) {
-					Log.v("Part 1", e1.toString());
-				}
+            	try {
+            		 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
+            		 URL ul = new URL(url);
+            		 HttpsURLConnection request = (HttpsURLConnection) ul.openConnection();
 
-                HttpResponse httpResponse = null;
-				try {
-					httpResponse = httpClient.execute(httpPost);
-				} catch (Exception e2) {
-					Log.v("No response", e2.toString());
-				}
-                HttpEntity httpEntity = null;
-				try {
-					httpEntity = httpResponse.getEntity();
-				} catch (Exception e3) {
-					Log.v("No entity", e3.toString());
-				}
-                try {
-					is = httpEntity.getContent();
-				} catch (Exception e4) {
-					Log.v("No content", e4.toString());
-				}
+            		 request.setUseCaches(false);
+            		 request.setDoOutput(true);
+            		 request.setDoInput(true);
+
+            		 request.setRequestMethod("POST");
+            		 OutputStream post = request.getOutputStream();
+            		 entity.writeTo(post);
+            		 post.flush();
+            		 is = request.getInputStream();
+            		} catch (Exception e) {
+            		 Log.e("Your app", "error");
+            		}
+
 
             }else if(method.compareTo("GET")==0){
                 // request method is GET
