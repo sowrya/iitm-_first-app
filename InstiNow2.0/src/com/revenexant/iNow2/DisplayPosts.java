@@ -148,8 +148,12 @@ public class DisplayPosts extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((UserChoices) activity).onSectionAttached(5);
+		try {
+			super.onAttach(activity);
+			((UserChoices) activity).onSectionAttached(5);
+		} catch (Exception e) {
+			Log.v("Attach",e.toString());
+		}
 	}
 	
 	

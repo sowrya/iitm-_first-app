@@ -152,8 +152,12 @@ public class ExecWingDisp extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((UserChoices) activity).onSectionAttached(3);
+		try {
+			super.onAttach(activity);
+			((UserChoices) activity).onSectionAttached(3);
+		} catch (Exception e) {
+			Log.v("Attach",e.toString());
+		}
 	}
 	
 }

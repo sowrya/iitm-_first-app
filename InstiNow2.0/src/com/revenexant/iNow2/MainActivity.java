@@ -25,7 +25,7 @@ public class MainActivity extends Activity{
 	SharedPreferences save;
     private EditText username1, password1;
 	private Button login;
-	private ProgressBar spinner;
+	private static ProgressBar spinner;
     public static boolean check;
 	private static final String url = "https://students.iitm.ac.in/mobops_testing/thoughtcloud.php";
 	private String name = "";
@@ -122,6 +122,7 @@ public class MainActivity extends Activity{
      		}else{
      			Toast.makeText(MainActivity.this,"Invalid credentials.",Toast.LENGTH_SHORT).show();
      			jsonstr = "";
+     			MainActivity.removeSpinner();
      		}
 		}
 		
@@ -137,7 +138,12 @@ public class MainActivity extends Activity{
 	        return true;
 	    }
 
-	    @Override
+	    public static void removeSpinner() {
+	    	spinner.setVisibility(View.GONE);
+			
+		}
+
+		@Override
 	    public boolean onOptionsItemSelected(MenuItem item) {
 	        // Handle action bar item clicks here. The action bar will
 	        // automatically handle clicks on the Home/Up button, so long

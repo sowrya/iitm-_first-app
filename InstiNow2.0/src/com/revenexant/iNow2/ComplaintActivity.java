@@ -187,8 +187,12 @@ class CreateComplaint extends AsyncTask<String, String, String>{
 
 @Override
 public void onAttach(Activity activity) {
-	super.onAttach(activity);
-	((UserChoices) activity).onSectionAttached(4);
+	try {
+		super.onAttach(activity);
+		((UserChoices) activity).onSectionAttached(4);
+	} catch (Exception e) {
+		Log.v("Attach",e.toString());
+	}
 }
 
 	

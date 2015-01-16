@@ -7,14 +7,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +50,7 @@ public class JsonParser {
             		 post.flush();
             		 is = request.getInputStream();
             		} catch (Exception e) {
-            		 Log.e("Your app", "error");
+            		 Log.e("Your app", e.toString());
             		}
 
 

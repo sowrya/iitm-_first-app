@@ -4,6 +4,7 @@ import java.util.Random;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,14 +43,34 @@ public class PopUpActivity extends Fragment{
 			displin.addView(ping);
 			ping = new TextView(getActivity());
 			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-			ping.setText(getArguments().getString("box","Nothing to display.")); ping.setVisibility(View.VISIBLE);
+			String fini = repairerPs(getArguments().getString("box","Nothing to display."));
+			ping.setText(fini); ping.setVisibility(View.VISIBLE);
 			ping.setBackground(getResources().getDrawable(R.drawable.borderradius));
+			ping.setMovementMethod(new ScrollingMovementMethod());
+			ping.setPadding(10, 10, 10, 10);
 			ping.setTextSize(18);
 			displin.addView(ping);
 			} catch (Exception e) {
 			Log.e("PopUpCreateView", e.toString());
 		}
 		return rootView;
+	}
+
+	private String repairerPs(String string) {
+		String out = "";boolean pass = false;
+		for (int i=0;i<string.length();i++){
+			if(string.charAt(i)=='<'){
+				pass = true;
+				out+="\n";
+			}
+			if(!pass){
+				out+=string.charAt(i);
+			}
+			if(string.charAt(i)=='>'){
+				pass=false;
+			}
+		}
+		return out;
 	}
 	
 

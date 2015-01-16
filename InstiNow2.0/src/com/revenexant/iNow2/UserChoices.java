@@ -110,6 +110,7 @@ public class UserChoices extends Activity implements
 	}
 
 	public void onSectionAttached(int number) {
+		mTitle = getResources().getStringArray(R.array.navdrawer_items);
 		getActionBar().setTitle(mTitle[number-1]);
 		}
 
@@ -196,9 +197,12 @@ public class UserChoices extends Activity implements
 
 		@Override
 		public void onAttach(Activity activity) {
-			super.onAttach(activity);
-			((UserChoices) activity).onSectionAttached(getArguments().getInt(
-					ARG_SECTION_NUMBER));
+			try {
+				super.onAttach(activity);
+				//((UserChoices) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+			} catch (Exception e) {
+				Log.v("Attach",e.toString());
+			}
 		}
 	}
 	
