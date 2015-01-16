@@ -38,7 +38,7 @@ public class PopUpActivity extends Fragment{
 			ping = new TextView(getActivity());
 			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 			ping.setText(getArguments().getString("heading","ERROR")); ping.setVisibility(View.VISIBLE);
-			ping.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+			ping.setBackgroundColor(Color.WHITE);
 			ping.setTextSize(20);
 			displin.addView(ping);
 			ping = new TextView(getActivity());

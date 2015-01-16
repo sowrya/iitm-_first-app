@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import android.widget.Toast;
 
 public class DisplayPosts extends Fragment {
 	
+	SharedPreferences save;
 	private JsonParser jp = new JsonParser();
 	private JSONObject jObj;
 	private static final String url="https://students.iitm.ac.in/mobops_testing/displayposts.php";
@@ -36,6 +40,7 @@ public class DisplayPosts extends Fragment {
 	private static TextView ping;
 	private static ProgressBar dispspin;
 	private static int success = 0;
+	private static String output;
 	private static String[] heading;
 	private static String[] box;
 	private static Activity ring;
@@ -53,8 +58,20 @@ public class DisplayPosts extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ring = (UserChoices)getActivity();
+		save = ring.getSharedPreferences(getString(R.string.sharedprefkey),Context.MODE_PRIVATE);
 		View rootView = inflater.inflate(R.layout.frag_displayposts, container, false);
 		displin = (LinearLayout) rootView.findViewById(R.id.lindisplay);
+
+		if(save.contains("displayposts")){
+			try {
+				JSONObject jObj = new JSONObject(save.getString("displayposts", null));
+				initializeAll(jObj);
+				displin.removeAllViews();
+				changeStuffUp();
+			} catch (JSONException e) {
+				Log.d("SavedDisplay", e.toString());
+			}
+		}
 		DispLoad = (Button) rootView.findViewById(R.id.dispload);
 		DispLoad.setOnClickListener(new View.OnClickListener() {
 			
@@ -74,9 +91,10 @@ public class DisplayPosts extends Fragment {
 	}
 	
 	private void loading(){
+		displin.removeAllViews();
 		dispspin = new ProgressBar(getActivity());
 		dispspin.setVisibility(View.VISIBLE);
-		displin.removeView(DispLoad);
+		//displin.removeView(DispLoad);
 		displin.addView(dispspin);
 	}
 	public void changeStuffUp() {
@@ -118,10 +136,11 @@ public class DisplayPosts extends Fragment {
 			List<BasicNameValuePair> users = new ArrayList<BasicNameValuePair>();
      		//making sure the input is in Capital letters
      		users.add(new BasicNameValuePair("roll", "check"));
-     	    jp.makeHttpRequest(url, "GET", users);
+     		output = jp.makeHttpRequest(url, "GET", users);
 			try{jObj = jp.returnJson();}catch(Exception e){Log.v("JSON", "Line 1.");}
 			try{
 				success = jObj.getInt("success");
+				
 				heading = new String[success];  box = new String[success];
 					for(int i=0;i<success && i<100;i++){
 						try{
@@ -142,7 +161,8 @@ public class DisplayPosts extends Fragment {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			DisplayPosts dp = new DisplayPosts();
-			dp.changeStuffUp();}
+			dp.changeStuffUp();
+			dp.save(output);}
 		
 	}
 
@@ -154,6 +174,38 @@ public class DisplayPosts extends Fragment {
 		} catch (Exception e) {
 			Log.v("Attach",e.toString());
 		}
+	}
+
+	public static void initializeAll(JSONObject jObj) {
+
+		try {
+			success = jObj.getInt("success");
+		
+		heading = new String[success];  box = new String[success];
+			for(int i=0;i<success && i<100;i++){
+				try{
+				heading[i] = jObj.getString("id"+i)+"\t"+jObj.getString("user"+i)+": "+jObj.getString("title"+i);
+				box[i] = jObj.getString("content"+i)+"\n"+jObj.getString("created_at"+i)+"  "
+				+jObj.getInt("solved"+i)+"  "+jObj.getString("solved_at"+i)+"\t"+
+						jObj.getString("avg_anger"+i);
+				} catch(Exception be){Log.e("Multiple", be.toString());}
+			}
+		} catch (JSONException e) {
+			Log.e("ExternalJsonParsing", e.toString());
+			}
+		
+	}
+
+	public void save(String makeHttpRequest) {
+		try {
+			
+			SharedPreferences.Editor editor = save.edit();
+			editor.putString("displayposts", makeHttpRequest);
+
+		} catch (Exception e) {
+			Log.e("SharedPref","saving error "+e.toString());
+		}
+		
 	}
 	
 	
