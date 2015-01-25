@@ -1,6 +1,5 @@
 package com.revenexant.iNow2;
 
-import java.util.Random;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -32,13 +31,12 @@ public class PopUpActivity extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.popup_page, container, false);
-		Random r = new Random();
 		LinearLayout displin = (LinearLayout) rootView.findViewById(R.id.popuplin);
 		try {
 			ping = new TextView(getActivity());
 			ping.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 			ping.setText(getArguments().getString("heading","ERROR")); ping.setVisibility(View.VISIBLE);
-			ping.setBackgroundColor(Color.WHITE);
+			ping.setTextColor(Color.WHITE);
 			ping.setTextSize(20);
 			displin.addView(ping);
 			ping = new TextView(getActivity());
@@ -49,6 +47,7 @@ public class PopUpActivity extends Fragment{
 			ping.setMovementMethod(new ScrollingMovementMethod());
 			ping.setPadding(10, 10, 10, 10);
 			ping.setTextSize(18);
+			ping.setTextColor(Color.WHITE);
 			displin.addView(ping);
 			} catch (Exception e) {
 			Log.e("PopUpCreateView", e.toString());

@@ -2,9 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#21A09A"
+    android:background="@drawable/longback"
     
     android:choiceMode="singleChoice"
     android:divider="@android:color/transparent"
     android:dividerHeight="0dp"
-    tools:context="com.revenexant.iNow2.NavigationDrawerFragment" />
+    tools:context="com.revenexant.iNow2.NavigationDrawerFragment"
+     />

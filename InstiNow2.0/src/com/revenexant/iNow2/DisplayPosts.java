@@ -199,7 +199,7 @@ public class DisplayPosts extends Fragment {
 	public void save(String makeHttpRequest) {
 		try {
 			
-			SharedPreferences.Editor editor = save.edit();
+			SharedPreferences.Editor editor = ring.getSharedPreferences(getString(R.string.sharedprefkey),Context.MODE_PRIVATE).edit();
 			editor.putString("displayposts", makeHttpRequest);
 
 		} catch (Exception e) {
