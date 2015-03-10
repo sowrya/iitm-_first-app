@@ -23,11 +23,13 @@
         <item>Executive Wing</item>
         <item>Feedback Portal</item>
         <item>Display Posts</item>
+        <item>Insti Maps</item>
     </string-array>
 
     <string name="title_activity_thanks">Thanks</string>
     <string name="title_activity_display_posts">DisplayPosts</string>
     <string name="title_execwing">Executive Posts</string>
     <string name="title_popup">Complaint Display</string>
+    <string name="title_mapinput">Insti Maps</string>
 
 </resources>

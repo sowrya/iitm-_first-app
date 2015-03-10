@@ -49,9 +49,9 @@ public final class R {
         public static final int star=0x7f02000c;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f0a0018;
-        public static final int LinearLayout2=0x7f0a0019;
-        public static final int action_settings=0x7f0a0021;
+        public static final int LinearLayout1=0x7f0a001a;
+        public static final int LinearLayout2=0x7f0a001b;
+        public static final int action_settings=0x7f0a0023;
         public static final int button1=0x7f0a0014;
         public static final int checkBox1=0x7f0a000b;
         public static final int checkBox2=0x7f0a000c;
@@ -62,27 +62,29 @@ public final class R {
         public static final int checkBox7=0x7f0a0011;
         public static final int checkBox8=0x7f0a0012;
         public static final int checkBox9=0x7f0a0013;
-        public static final int container=0x7f0a001f;
+        public static final int container=0x7f0a0021;
         public static final int dispload=0x7f0a0001;
-        public static final int drawer_layout=0x7f0a001e;
+        public static final int drawer_layout=0x7f0a0020;
         public static final int editText1=0x7f0a0007;
         public static final int editText2=0x7f0a0008;
         public static final int execlindisplay=0x7f0a0002;
         public static final int execload=0x7f0a0004;
-        public static final int imageView1=0x7f0a001c;
+        public static final int imageView1=0x7f0a001e;
         public static final int lindisplay=0x7f0a0000;
         public static final int linearLayout1=0x7f0a0015;
-        public static final int logout=0x7f0a0022;
-        public static final int navigation_drawer=0x7f0a0020;
+        public static final int logout=0x7f0a0024;
+        public static final int mapinputter=0x7f0a0017;
+        public static final int navigation_drawer=0x7f0a0022;
         public static final int pain=0x7f0a0009;
-        public static final int popuplin=0x7f0a001b;
+        public static final int popuplin=0x7f0a001d;
         public static final int ratingBar1=0x7f0a000a;
         public static final int scrollView1=0x7f0a0005;
+        public static final int searchinput=0x7f0a0018;
         public static final int section_label1=0x7f0a0003;
-        public static final int section_label2=0x7f0a0017;
+        public static final int section_label2=0x7f0a0019;
         public static final int section_label3=0x7f0a0016;
-        public static final int spinner=0x7f0a001a;
-        public static final int textView1=0x7f0a001d;
+        public static final int spinner=0x7f0a001c;
+        public static final int textView1=0x7f0a001f;
         public static final int tset=0x7f0a0006;
     }
     public static final class layout {
@@ -90,12 +92,13 @@ public final class R {
         public static final int frag_execwing=0x7f030001;
         public static final int frag_feedback=0x7f030002;
         public static final int frag_instievents=0x7f030003;
-        public static final int frag_t5e=0x7f030004;
-        public static final int fragment_navigation_drawer=0x7f030005;
-        public static final int loginpage=0x7f030006;
-        public static final int popup_page=0x7f030007;
-        public static final int thanks=0x7f030008;
-        public static final int usernavdrawer=0x7f030009;
+        public static final int frag_mapinput=0x7f030004;
+        public static final int frag_t5e=0x7f030005;
+        public static final int fragment_navigation_drawer=0x7f030006;
+        public static final int loginpage=0x7f030007;
+        public static final int popup_page=0x7f030008;
+        public static final int thanks=0x7f030009;
+        public static final int usernavdrawer=0x7f03000a;
     }
     public static final class menu {
         public static final int complaint=0x7f090000;
@@ -119,6 +122,7 @@ public final class R {
         public static final int title_activity_home=0x7f050009;
         public static final int title_activity_thanks=0x7f05000e;
         public static final int title_execwing=0x7f050010;
+        public static final int title_mapinput=0x7f050012;
         public static final int title_popup=0x7f050011;
         public static final int title_section1=0x7f050001;
         public static final int title_section2=0x7f050002;

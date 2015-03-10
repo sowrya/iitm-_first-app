@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mapinputter"
+    android:orientation="vertical" android:padding="20dp"
+    android:background="@drawable/back"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.revenexant.iNow2.DisplayPosts$PlaceholderFragment" >
+
+    
+    <TextView
+        android:id="@+id/section_label1"
+        android:text="Search insti for a location." 
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <EditText
+        android:id="@+id/searchinput"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:padding="15dp"
+        android:background="@drawable/edittextcustom"
+        android:hint="Name the place..." >
+
+            <requestFocus />
+    </EditText>
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        android:text="Go Go Go!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="@drawable/mybutton"
+        android:layout_marginBottom="25dp"
+        />
+</LinearLayout>

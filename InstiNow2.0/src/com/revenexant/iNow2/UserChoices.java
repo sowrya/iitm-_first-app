@@ -96,6 +96,12 @@ public class UserChoices extends Activity implements
 					DisplayPosts.newInstance()).commit();}
 			catch(Exception e){Log.e("DisplayPost", "can't even begin");}
 			break;
+		case 5:
+			try{fragmentManager.beginTransaction().replace(R.id.container,
+					MapInputter.newInstance()).commit();
+				}
+			catch(Exception e){Log.e("MapSearcher", "can't even begin");}
+			break;
 		default:
 			fragmentManager.beginTransaction().replace(R.id.container,
 					PlaceholderFragment.newInstance(position + 1)).commit();

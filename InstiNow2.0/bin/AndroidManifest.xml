@@ -59,7 +59,10 @@
         <activity
             android:name=".PopUpActivity"
             android:label="@string/title_popup">
-            
+        </activity>
+        <activity 
+            android:name=".MapInputter"
+            android:label="@string/title_mapinput">
         </activity>
     </application>
 
