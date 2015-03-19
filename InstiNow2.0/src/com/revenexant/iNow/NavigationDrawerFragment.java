@@ -1,5 +1,6 @@
-package com.revenexant.iNow2;
+package com.revenexant.iNow;
 
+import com.revenexant.iNow.R;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;

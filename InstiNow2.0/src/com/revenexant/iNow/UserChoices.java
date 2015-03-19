@@ -1,4 +1,6 @@
-package com.revenexant.iNow2;
+package com.revenexant.iNow;
+
+import com.revenexant.iNow.R;
 
 import android.app.Activity;
 
@@ -27,10 +29,10 @@ public class UserChoices extends Activity implements
 	 * navigation drawer.
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
-	private FragmentManager fragmentManager;
+	public static FragmentManager fragmentManager;
 	private boolean inPopUp = false;
 
-	SharedPreferences save;
+	public SharedPreferences save;
 	private CharSequence[] mTitle;
 
 	@Override
@@ -83,23 +85,19 @@ public class UserChoices extends Activity implements
 		
 		switch(position){
 		case 2:
-			try{fragmentManager.beginTransaction().replace(R.id.container,
-					ExecWingDisp.newInstance()).commit();}
+			try{fragmentChanger(ExecWingDisp.newInstance());}
 			catch(Exception e){Log.e("ExecDisp", "can't even begin");}
 			break;
 		case 3:
-			fragmentManager.beginTransaction().replace(R.id.container,
-					ComplaintActivity.newInstance()).commit();
+			try{fragmentChanger(ComplaintActivity.newInstance());}
+			catch(Exception e){Log.e("ComplaintActivity", "can't even begin");}
 			break;
 		case 4:
-			try{fragmentManager.beginTransaction().replace(R.id.container,
-					DisplayPosts.newInstance()).commit();}
+			try{fragmentChanger(DisplayPosts.newInstance());}
 			catch(Exception e){Log.e("DisplayPost", "can't even begin");}
 			break;
 		case 5:
-			try{fragmentManager.beginTransaction().replace(R.id.container,
-					MapInputter.newInstance()).commit();
-				}
+			try{fragmentChanger(MapInputter.newInstance());}
 			catch(Exception e){Log.e("MapSearcher", "can't even begin");}
 			break;
 		default:
@@ -108,6 +106,15 @@ public class UserChoices extends Activity implements
 			break;
 		}
 	}
+	
+
+	public void fragmentChanger(Fragment frag){
+		fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.container,
+				frag).commit();
+	}
+	
+
 	
 	public void popUpStarter(String heading,String box){
 		inPopUp = true;
@@ -212,5 +219,4 @@ public class UserChoices extends Activity implements
 		}
 	}
 	
-
 }

@@ -1,10 +1,13 @@
-package com.revenexant.iNow2;
+package com.revenexant.iNow;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
+import com.revenexant.iNow.R;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
@@ -73,6 +76,7 @@ public class ExecWingDisp extends Fragment {
 	}
 	
 	private void loading() {
+		execlin.removeAllViews();
 		execspin = new ProgressBar(getActivity());
 		execspin.setVisibility(View.VISIBLE);
 		execlin.removeView(ExecLoad);
@@ -98,7 +102,8 @@ public class ExecWingDisp extends Fragment {
 				heading = new String[success];  box = new String[success];
 					for(int i=0;i<success && i<100;i++){
 						try{
-						heading[i] = jObj.getString("id"+i)+"\t"+jObj.getString("user"+i)+": "+jObj.getString("title"+i);
+						//heading[i] = jObj.getString("id"+i)+"\t"+jObj.getString("user"+i)+": "+jObj.getString("title"+i);
+						heading[i] = jObj.getString("title"+i);
 						box[i] = jObj.getString("content"+i)+"\n"+jObj.getString("created_at"+i)+"  "
 						+jObj.getInt("solved"+i)+"  "+jObj.getString("solved_at"+i)+"\t"+
 								jObj.getString("avg_rate"+i);
@@ -130,7 +135,7 @@ public class ExecWingDisp extends Fragment {
 		} else {
 			try{
 				ListView displist = new ListView(ring);
-				displist.setBackgroundColor(Color.WHITE);
+				displist.setBackgroundColor(Color.TRANSPARENT);
 				displist.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 				ArrayAdapter<String> aa = new ArrayAdapter<String>(ring, android.R.layout.simple_list_item_1, heading);
 				displist.setAdapter(aa);

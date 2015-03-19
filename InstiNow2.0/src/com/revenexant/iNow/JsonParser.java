@@ -1,4 +1,4 @@
-package com.revenexant.iNow2;
+package com.revenexant.iNow;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

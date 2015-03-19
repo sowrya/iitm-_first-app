@@ -1,9 +1,12 @@
-package com.revenexant.iNow2;
+package com.revenexant.iNow;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
+import com.revenexant.iNow.R;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
